@@ -1,0 +1,388 @@
+<!-- 
+	
+	id, nameを間違えると動かない．基本的にいじりたい要素はidにしておかないと後で大変な目を見る
+	
+	2016/05/11
+	JQuery入れた
+	#導入した
+	
+	
+	2016/05/14
+	multiple An
+	multiple Clipのhash
+	
+	左右　動脈瘤位置分けて入力
+	治療動脈瘤位置分けて入力
+	治療動脈瘤の位置は動的にCheckBoxにしても良い。　難しいところ。
+  
+	CB選択肢決定タイミングは、もう一項目つくり、上記全てにクリップ、一部の分岐で、一部を選択した際に出す。更新ボタンも横に出す。
+	
+	2016/05/19
+	動脈瘤の選択から動的にチェックボックスを出すのは次のバージョンで。
+	
+	
+	
+-->
+
+
+
+<!DOCTYPE HTML>
+<html lang="ja">
+	<head>
+		<title>ClippingOP記録作成</title>
+		<meta charset="UTF-8">
+		<script src="jquery-1.12.0.min.js"></script>
+<!-- 
+	style 設定 
+-->
+		<link rel="stylesheet" href="opeRecoStyle.css" type="text/css">
+<!--
+	JavaScript記述
+-->
+		<script>
+//手術記録記載
+			function createOPErecord(){
+//全てのボタンの値を手に入れる
+				var vrupture = $('input[name=ruptureS]:checked').val();
+				var vtemporaly = $('input[name=temporalyS]:checked').val();
+				var vclipsSorM = $('input[name=multiClipS]:checked').val();
+				var vcraniotomy = $('input[name=craniotomyS]:checked').val();
+				var vapproach = $('input[name=approachS]:checked').val();
+				var vvein = $('input[name=veinS]:checked').val();
+				var vdetail = document.getElementById('detail').value;
+
+				var vclip1 = $('select[id=clipProNum1]').val();
+				var vclip2 = $('select[id=clipProNum2]').val();
+				var vclip3 = $('select[id=clipProNum3]').val();
+				var vclip4 = $('select[id=clipProNum4]').val();
+				var vclip5 = $('select[id=clipProNum5]').val();
+//動脈瘤のある場所を取得する vlocOfAnAry
+				var vrANPositionArray = $('input[name=rANPositionS]:checked').map(function(){
+					return $(this).val();
+					}).get();
+				var vrANPosition = vrANPositionArray.join(',');
+				var vlANPositionArray = $('input[name=lANPositionS]:checked').map(function(){
+					return $(this).val();
+					}).get();
+				var vlANPosition = vlANPositionArray.join(',');
+//左右合わせる				
+				var valllocOfAn = vrANPosition.concat(vlANPosition);
+				var vlocOfAnAry = $('input[name=listOfClipLoc]:checked').map(function() {
+					return $(this).val();
+				}).get();
+				var vopelocOfAn = vlocOfAnAry.join(',');
+					if (vlocOfAnAry.length > 1) {
+						var vmultipleAn = "複数";
+					}else{
+						var vmultipleAn = "1個";
+					};
+// #つきでそれぞれの検出項目をつける。
+				var hashrup = '#破裂未破裂:' + vrupture;
+				var hashtemporary = '#テンポラリークリップ:' + vtemporaly;
+				var hashclipNo = '#使用Clip:' + vclip1 + " " + vclip2 + " " + vclip3 + " " + vclip4 + " " + vclip5;
+				var hashclipsSorM = '#クリップ:' + vclipsSorM;
+				var hashmultipleAn = '#手術動脈瘤数:' + vmultipleAn;
+
+// hashtag まとめ
+				var hashAll = '\r\r' + hashrup + '\r' + hashtemporary + '\r' + hashclipNo　+ '\r' + hashclipsSorM + '\r' + hashmultipleAn
+				var avar = document.getElementById("asummary");
+				avar.value =  valllocOfAn + "\r今回手術部位は" + vopelocOfAn + " " + vrupture + "\r\r"
+				+  "全身麻酔、仰臥位。患側に肩枕を挿入し、頭部を健側に僅かに回旋させMayField 3-pinで固定。"
+				+ "開頭は" + vcraniotomy +"で行った。型どおりに皮膚切開､開頭｡サージセル、ボーンワックス、硬膜のtentingを行いepiduralからの出血をコントロールした。"
+				+ "硬膜の止血を行った後Sphenoid ridgeを可及的にリューエルで削除した。"
+				+ "硬膜を型どおり切開し翻転させ、周囲硬膜を4-0ニューロロンで吊る。脳表にベン・シーツを敷き保護した。\r"
+				+ "アプローチは" + vapproach + "にて行った。" + "術野静脈について" + vvein + "\r\r"
+				+ vdetail + "\r\r"
+				+ "術野の止血を十分に確認した後閉頭に移った。ドレーンは筋層下に留置。型どおりに閉創し手術を終了した。"
+				+ "\r\r\r" + hashAll	
+			} 
+
+
+
+			function createCheckBox() {
+//動脈瘤のある場所を取得する vlocOfAnAry
+				var vrANPositionArray = $('input[name=rANPositionS]:checked').map(function(){
+					return $(this).val();
+					}).get();
+//				var vrANPosition = vrANPositionArray.join(',');
+				var vlANPositionArray = $('input[name=lANPositionS]:checked').map(function(){
+					return $(this).val();
+					}).get();
+//				var vlANPosition = vlANPositionArray.join(',');
+//左右合わせる				
+				var vlocOfAnAry = vrANPositionArray.concat(vlANPositionArray);
+//もともとCheckBoxがある場合の処理ChildNodeが存在する場合は消去する
+				var divNode = document.getElementById('clipcheckbox');
+	  			var childNodeNum = divNode.childNodes.length
+				if (childNodeNum != 0){
+					for (i = 0; i< childNodeNum; i++){
+						divNode.removeChild(divNode.lastChild);
+					}
+				}			
+//取得したリストから動的にリストを作成する
+// input, labelはforの内側に入れないとforの外でも使えるglobalな変数になってうまく狙った挙動にならない
+				for (i=0; i < vlocOfAnAry.length; i++) {
+				  var input = document.createElement('input');
+				  var label = document.createElement('label');		
+					var idid = 'listOfClipLoc' + i;
+					input.setAttribute('type', 'checkbox');
+					input.setAttribute('name', 'listOfClipLoc');
+  					input.setAttribute('id', idid);
+  					input.setAttribute('value', vlocOfAnAry[i]);
+					input.setAttribute('check', 'checked');
+					input.setAttribute('style', 'font-size:12pt;');
+//labelを使うと文字をクリックしてもチェックされる
+					label.htmlFor = idid; //個有のものに対するlabelなのでid必要
+					label.appendChild(document.createTextNode(vlocOfAnAry[i]));		
+					divNode.appendChild(input);
+					divNode.appendChild(label);
+				}
+			}
+		</script>
+	</head>
+
+
+<!--
+破裂未破裂 rupture
+テンポラリー temporaly
+使用クリップ clipNo
+マルチクリップ multiClip
+総動脈瘤数 countaAllAN
+今回クリップした動脈瘤数 countClipAN
+動脈瘤部位右 rANPosition
+動脈瘤部位左 lANPosition
+開頭 craniotomy
+アプローチ approach
+静脈 vein
+手術所見 detail
+	-->
+
+	
+	
+	
+	
+	<body>
+		<div class="titleBox">
+			動脈瘤手術記録
+		</div>
+		<div class="boxA">
+			<div class="inputpage" id="inputpage">
+				<form id="inputform">
+					<ul>
+						<li>
+							破裂未破裂
+							<input type='radio' name='ruptureS' value='破裂' >破裂
+							<input type='radio' name='ruptureS' value='未破裂' checked>未破裂
+						</li>
+						<li style="border:none;">
+						動脈瘤部位
+						</li>
+						<li>右
+							<p>
+								<label><input type="checkbox" name="rANPositionS" value="Rt.MCA:M1-2" checked>MCA:M1-2</label>
+								<label><input type="checkbox" name="rANPositionS" value="Rt.MCA:M1" >MCA:M1</label>
+								<label><input type="checkbox" name="rANPositionS" value="Rt.IC-Pcom" >IC-Pcom</label>
+								<label><input type="checkbox" name="rANPositionS" value="Rt.IC-Ant.Chor.a" >IC-Ant.Chor.a</label>
+								<label><input type="checkbox" name="rANPositionS" value="Rt.Acom" >Acom</label>
+								<label><input type="checkbox" name="rANPositionS" value="Rt.IC-bif" >IC-bif</label>
+								<label><input type="checkbox" name="rANPositionS" value="Rt.distal MCA" >distal MCA</label>
+								<label><input type="checkbox" name="rANPositionS" value="Rt.distal ACA" >distal ACA</label>
+								<label><input type="checkbox" name="rANPositionS" value="Rt.BA-SCA" >BA-SCA</label>
+								<label><input type="checkbox" name="rANPositionS" value="BA-Tip" >BA-Tip</label>
+							</p>
+						</li>
+						<li>
+							左
+							<p>
+								<label><input type="checkbox" name="lANPositionS" value="Lt.MCA:M1-2" checked>MCA:M1-2</label>
+								<label><input type="checkbox" name="lANPositionS" value="Lt.MCA:M1" >MCA:M1</label>
+								<label><input type="checkbox" name="lANPositionS" value="Lt.IC-Pcom" >IC-Pcom</label>
+								<label><input type="checkbox" name="lANPositionS" value="Lt.IC-Ant.Chor.a" >IC-Ant.Chor.a</label>
+								<label><input type="checkbox" name="lANPositionS" value="Lt.Acom" >Acom</label>
+								<label><input type="checkbox" name="lANPositionS" value="Lt.IC-bif" >IC-bif</label>
+								<label><input type="checkbox" name="lANPositionS" value="Lt.distal MCA" >distal MCA</label>
+								<label><input type="checkbox" name="lANPositionS" value="Lt.distal ACA" >distal ACA</label>
+								<label><input type="checkbox" name="lANPositionS" value="Lt.BA-SCA" >BA-SCA</label>
+							</p>
+						</li>
+						<li style="border:none">
+<!-- チェックボックス作成ボタン -->
+							<div class="button">
+								<form id="anPos">											
+									<input type="button" id="createCB" value="作成CB" onclick="createCheckBox()">
+								</form>
+							</div>
+						</li>
+						<li>
+					
+<!-- 動的にチェックボックスを作るスペース -->		
+         						<form id="clipcheckbox"></form>
+						</li>
+						<li>
+							開頭
+							<p>								
+								<label><input type="radio" name="craniotomyS" value="front-temporal craniotomy">F-T</label>
+								<label><input type="radio" name="craniotomyS" value="pterional craniotomy" checked>pterional</label>
+								<label><input type="radio" name="craniotomyS" value="unilateral frontal craniotomy">unilateral frontal</label>
+								<label><input type="radio" name="craniotomyS" value="bifrontal craniotomy">bifrontal</label>
+							</p>		
+						</li>
+						<li>アプローチ
+							<p>
+								<label><input type="radio" name="approachS" value="transSylvian approach" checked>transSylvian</label>
+								<label><input type="radio" name="approachS" value="conbined subfrontal and transSylvian approach">subfrontal and transSylvian</label>
+								<label><input type="radio" name="approachS" value="interhemispheric approach">interhemispheric</label>
+								<label><input type="radio" name="approachS" value="subtemporal apporach">subtemporal</label>
+							</p>
+						</li>
+						<li>
+							静脈が邪魔か
+								<label><input type="radio" name="veinS" value="障害にならなかった">簡単</label>
+								<label><input type="radio" name="veinS" value="剥離は必要だった" checked>普通</label>
+								<label><input type="radio" name="veinS" value="剥離は非常に困難だった">難しい</label>
+						</li>
+						<li>
+							手術所見
+							<p>
+								<textarea class="inputTextArea" id="detail" rows="10" cols="45">手術所見は</textarea>
+							</p>
+						</li>
+						<li style="margin-right: 0.5em;">
+							テンポラリー
+							<input type="radio" name="temporalyS" value="使用">使用
+							<input type="radio" name="temporalyS" value="不使用" checked>不使用
+						</li>
+						<li>
+							1つにつき複数クリップかけたか？<br>
+							<label><input type="radio" name="multiClipS" value="single clip" checked>sigle</label>
+							<label><input type="radio" name="multiClipS" value="multiple clips">multiple</label>
+						</li>
+						<li>
+<!-- clip product No -->
+							clip1
+							<select id="clipProNum1">
+								<option value="強弯 3.9mm Yasagil FT714T" >強弯 3.9</option>
+								<option value="強弯 4.0mm(先細) Yasagil FT694T" >強弯 4.0(先細)</option>
+								<option value="強弯 5.0mm Yasagil FT724T" >強弯 5.0</option>
+							
+								<option value="弱弯 4.0mm Yasagil FT712T" >弱弯 4.0</option>
+								<option value="弱弯 4.7mm(先細) Yasagil FT692T" >弱弯 4.7(先細)</option>
+								<option value="弱弯 6.6mm Yasagil FT722T" >弱弯 6.6</option>
+							
+								<option value="byonet 4.0mm Yasagil FT727T" >byonet 4.0</option>
+								<option value="byonet 7.0mm Yasagil FT728T" >byonet 7.0</option>
+							
+								<option value="straight 3.0mm(先細) Yasagil FT680T" >直 3.0(先細)</option>
+								<option value="straight 5.0mm(先細) Yasagil FT690T" >直 5.0(先細)</option>
+								<option value="straight 5.0mm Yasagil FT710T" >直 5.0</option>
+								<option value="straight 7.0mm Yasagil FT720T" >直 7.0</option>
+							</select>
+						
+							<br>clip2
+							<select id="clipProNum2">
+								<option value=""></option>
+								<option value="強弯 3.9mm Yasagil FT714T" >強弯 3.9</option>
+								<option value="強弯 4.0mm(先細) Yasagil FT694T" >強弯 4.0(先細)</option>
+								<option value="強弯 5.0mm Yasagil FT724T" >強弯 5.0</option>
+							
+								<option value="弱弯 4.0mm Yasagil FT712T" >弱弯 4.0</option>
+								<option value="弱弯 4.7mm(先細) Yasagil FT692T" >弱弯 4.7(先細)</option>
+								<option value="弱弯 6.6mm Yasagil FT722T" >弱弯 6.6</option>
+							
+								<option value="byonet 4.0mm Yasagil FT727T" >byonet 4.0</option>
+								<option value="byonet 7.0mm Yasagil FT728T" >byonet 7.0</option>
+							
+								<option value="straight 3.0mm(先細) Yasagil FT680T" >直 3.0(先細)</option>
+								<option value="straight 5.0mm(先細) Yasagil FT690T" >直 5.0(先細)</option>
+								<option value="straight 5.0mm Yasagil FT710T" >直 5.0</option>
+								<option value="straight 7.0mm Yasagil FT720T" >直 7.0</option>
+							</select>
+								
+							<br>clip3
+							<select id="clipProNum3">
+								<option value=""></option>
+								<option value="強弯 3.9mm Yasagil FT714T" >強弯 3.9</option>
+								<option value="強弯 4.0mm(先細) Yasagil FT694T" >強弯 4.0(先細)</option>
+								<option value="強弯 5.0mm Yasagil FT724T" >強弯 5.0</option>
+							
+								<option value="弱弯 4.0mm Yasagil FT712T" >弱弯 4.0</option>
+								<option value="弱弯 4.7mm(先細) Yasagil FT692T" >弱弯 4.7(先細)</option>
+								<option value="弱弯 6.6mm Yasagil FT722T" >弱弯 6.6</option>
+							
+								<option value="byonet 4.0mm Yasagil FT727T" >byonet 4.0</option>
+								<option value="byonet 7.0mm Yasagil FT728T" >byonet 7.0</option>
+							
+								<option value="straight 3.0mm(先細) Yasagil FT680T" >直 3.0(先細)</option>
+								<option value="straight 5.0mm(先細) Yasagil FT690T" >直 5.0(先細)</option>
+								<option value="straight 5.0mm Yasagil FT710T" >直 5.0</option>
+								<option value="straight 7.0mm Yasagil FT720T" >直 7.0</option>
+							</select>
+							
+							<br>clip4
+							<select id="clipProNum4">
+								<option value=""></option>
+								<option value="強弯 3.9mm Yasagil FT714T" >強弯 3.9</option>
+								<option value="強弯 4.0mm(先細) Yasagil FT694T" >強弯 4.0(先細)</option>
+								<option value="強弯 5.0mm Yasagil FT724T" >強弯 5.0</option>
+							
+								<option value="弱弯 4.0mm Yasagil FT712T" >弱弯 4.0</option>
+								<option value="弱弯 4.7mm(先細) Yasagil FT692T" >弱弯 4.7(先細)</option>
+								<option value="弱弯 6.6mm Yasagil FT722T" >弱弯 6.6</option>
+							
+								<option value="byonet 4.0mm Yasagil FT727T" >byonet 4.0</option>
+								<option value="byonet 7.0mm Yasagil FT728T" >byonet 7.0</option>
+							
+								<option value="straight 3.0mm(先細) Yasagil FT680T" >直 3.0(先細)</option>
+								<option value="straight 5.0mm(先細) Yasagil FT690T" >直 5.0(先細)</option>
+								<option value="straight 5.0mm Yasagil FT710T" >直 5.0</option>
+								<option value="straight 7.0mm Yasagil FT720T" >直 7.0</option>
+							</select>
+							
+							<br>clip5
+							<select id="clipProNum5">
+								<option value=""></option>
+								<option value="強弯 3.9mm Yasagil FT714T" >強弯 3.9</option>
+								<option value="強弯 4.0mm(先細) Yasagil FT694T" >強弯 4.0(先細)</option>
+								<option value="強弯 5.0mm Yasagil FT724T" >強弯 5.0</option>
+							
+								<option value="弱弯 4.0mm Yasagil FT712T" >弱弯 4.0</option>
+								<option value="弱弯 4.7mm(先細) Yasagil FT692T" >弱弯 4.7(先細)</option>
+								<option value="弱弯 6.6mm Yasagil FT722T" >弱弯 6.6</option>
+							
+								<option value="byonet 4.0mm Yasagil FT727T" >byonet 4.0</option>
+								<option value="byonet 7.0mm Yasagil FT728T" >byonet 7.0</option>
+							
+								<option value="straight 3.0mm(先細) Yasagil FT680T" >直 3.0(先細)</option>
+								<option value="straight 5.0mm(先細) Yasagil FT690T" >直 5.0(先細)</option>
+								<option value="straight 5.0mm Yasagil FT710T" >直 5.0</option>
+								<option value="straight 7.0mm Yasagil FT720T" >直 7.0</option>
+							</select>
+						</li>
+					</ul>
+				</form>
+<!-- 作成ボタン -->
+				<div class="button">			
+					<form id="csummary">
+						<input type="button" id="createsummary" value="作成" onclick="createOPErecord()">
+					</form>
+				</div>
+			</div>
+<!-- 手術記録 -->											
+			<div class="outputpage">
+				<div class="opetitle">
+                    <label>手術病名</label><input type="text" name="opeName" value="脳動脈瘤頸部クリッピング術" onFocus="this.select();" readonly><br>
+                    <label>術後手術病名</label><input type="text" name="opeName" value="同上" onFocus="this.select();" readonly><br>
+	                 <label>K-code</label><input type="text" name="kCode" value="K177 脳動脈瘤頸部クリッピング" onFocus="this.select();" readonly><br>
+              	</div>
+				<div class="opeNote">
+					手術記録
+					<form id="sum">				
+						<textarea class="outputTextArea" name = "asummary" id="asummary" rows="30" cols="70" ></textarea>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+	
+		

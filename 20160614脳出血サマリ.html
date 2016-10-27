@@ -1,0 +1,217 @@
+<!-- 
+	
+20160614 作成開始
+	
+-->
+
+
+
+<!DOCTYPE HTML>
+<html lang="ja">
+	<head>
+		<title>脳出血退院サマリ</title>
+		<meta charset="UTF-8">
+		<script src="jquery-1.12.0.min.js"></script>
+<!-- 
+	style 設定 
+-->
+		<link rel="stylesheet" href="opeRecoStyle.css" type="text/css">
+<!--
+	JavaScript記述
+-->
+		<script>
+//サマリ記載
+			function createRecord(){	
+//全てのボタンの値を手に入れる
+//radio
+				var vope = $('input[name=opeS]:checked').val();
+				var vworse = $('input[name=worseS]:checked').val();
+				var vupperParesis = $('input[name=upperParesisS]:checked').val();
+				var vlowerParesis = $('input[name=lowerParesisS]:checked').val();
+				var vdysarthria = $('input[name=dysarthriaS]:checked').val();
+				var vaphasia = $('input[name=aphasiaS]:checked').val();
+				var vataxia = $('input[name=ataxiaS]:checked').val();
+				var vhemianopia = $('input[name=hemianopiaS]:checked').val();
+				var vingestion = $('input[name=ingestionS]:checked').val();
+				var vwalk = $('input[name=walkS]:checked').val();
+				var vdischarge = $('input[name=dischargeS]:checked').val();
+//checkBox
+				var votherTreatmentArray = $('input[name=otherTreatmentS]:checked').map(function(){
+					return $(this).val();
+					}).get();
+				var votherTreatment = votherTreatmentArray.join(',');
+//select
+				var vfinalmRS = $('select[id=finalmRS]').val();
+
+//サマリ作成
+				var avar = document.getElementById("asummary");
+
+				avar.value = "【入院後経過】入院後" + vope
+				 + "入院経過を通じ症状は" + vworse + "。"
+				 + "急性期治療後の神経症状は mRS:" + vfinalmRS
+				  + ", NIHSS 患側上肢 " + vupperParesis + "/4, 患側下肢 " + vlowerParesis + "/4, "
+				  + "構音障害 " + vdysarthria + ", 失語 " + vaphasia + ", 失調 " + vataxia + ", "
+				  + "移動は" + vwalk + "。"
+				  + "食事、栄養管理については" + vingestion + "となった。\r"
+				  + "その他入院中に加療を要したものは" + votherTreatment + "。\r"
+				  + "急性期治療後" + vdischarge + "となった。"
+				
+			} 
+
+		</script>
+	</head>
+	
+	
+	
+	
+	
+	<body>
+		<div class="titleBox">
+			脳出血退院サマリ
+		</div>
+		<div class="boxA">
+			<div class="inputpage" id="inputpage">
+
+<!--
+サマリ項目
+	手術有無 ope
+	症状の悪化 worse
+	急性期治療後mRS finalmRS
+	上肢麻痺 upperParesis
+	下肢麻痺 lowerParesis
+	構音障害 dysarthria
+	失語 aphasia
+	失調 ataxia
+	半盲 hemianopia
+	摂食 ingestion
+	歩行 walk
+	その他治療 otherTreatment
+	転機 discharge
+-->
+
+					
+				<form id="inputform">
+					<ul>
+						<li>
+							手術
+							<input type="radio" name="opeS" value="降圧を中心とした保存的治療を行った。" checked>なし
+							<input type="radio" name="opeS" value="血腫除去術を施行した。" >あり
+						</li>
+						<li>
+							症状
+							<input type="radio" name="worseS" value="改善した" checked >改善
+							<input type="radio" name="worseS" value="不変だった" >不変
+							<input type="radio" name="worseS" value="悪化した" >悪化
+						</li>
+						<li>
+							急性期治療後mRS
+							<select id="finalmRS">
+								<option value="0">正常</option>
+								<option value="1">症候+、障害ない</option>
+								<option value="2">身の回りの事はできる</option>
+								<option value="3">介護外出</option>
+								<option value="4">介助歩行</option>
+								<option value="5">寝たきり</option>
+								<option value="6">死亡</option>
+							</select>
+						</li>
+						<li>NIHSS
+							<p>
+								<label class="nhissTitle">上肢</label>
+								<input type="radio" name="upperParesisS" value="0" checked >0
+								<input type="radio" name="upperParesisS" value="1" >1
+								<input type="radio" name="upperParesisS" value="2" >2
+								<input type="radio" name="upperParesisS" value="3" >3
+								<input type="radio" name="upperParesisS" value="4" >4
+							</p>
+							<p>
+								<label class="nhissTitle">下肢</label>
+								<input type="radio" name="lowerParesisS" value="0" checked >0
+								<input type="radio" name="lowerParesisS" value="1" >1
+								<input type="radio" name="lowerParesisS" value="2" >2
+								<input type="radio" name="lowerParesisS" value="3" >3
+								<input type="radio" name="lowerParesisS" value="4" >4
+							<p>
+								<label class="nhissTitle">構音</label>
+								<input type="radio" name="dysarthriaS" value="なし" checked >0
+								<input type="radio" name="dysarthriaS" value="1/2" >1
+								<input type="radio" name="dysarthriaS" value="2/2" >2
+							</p>
+							<p>
+								<label class="nhissTitle">失語</label>
+								<input type="radio" name="aphasiaS" value="なし" checked >0
+								<input type="radio" name="aphasiaS" value="1/3" >1
+								<input type="radio" name="aphasiaS" value="2/3" >2
+								<input type="radio" name="aphasiaS" value="3/3" >3
+							</p>
+							<p>
+								<label class="nhissTitle">半盲</label>
+								<input type="radio" name="hemianopiaS" value="なし" checked >0
+								<input type="radio" name="hemianopiaS" value="1/3" >1
+								<input type="radio" name="hemianopiaS" value="2/3" >2
+								<input type="radio" name="hemianopiaS" value="3/3" >
+							</p>
+							<p>
+								<label class="nhissTitle">失調</label>
+								<input type="radio" name="ataxiaS" value="なし" checked >0
+								<input type="radio" name="ataxiaS" value="1/2" >1
+								<input type="radio" name="ataxiaS" value="2/2" >2
+							</p>
+						</li>
+						<li>
+							摂食
+							<p>
+								<label><input type="radio" name="ingestionS" value="摂食可能" checked >摂食可</label>
+								<label><input type="radio" name="ingestionS" value="嚥下調整食" >調整食</label>
+								<label><input type="radio" name="ingestionS" value="NGtubeでの栄養管理" >NG</label>
+								<label><input type="radio" name="ingestionS" value="胃瘻造設での栄養管理" >胃瘻</label>
+							</p>
+						</li>
+						<li>
+							歩行
+							<p>
+								<label><input type="radio" name="walkS" value="自立歩行" checked >自立</label>
+								<label><input type="radio" name="walkS" value="杖歩行" >杖</label>
+								<label><input type="radio" name="walkS" value="シルバーカー歩行" >シルバーカー</label>
+								<label><input type="radio" name="walkS" value="車椅子" >車椅子</label>
+								<label><input type="radio" name="walkS" value="寝たきり" >寝たきり</label>
+							</p>
+						</li>
+						<li>その他の治療
+							<p>
+								<label><input type="checkbox" name="otherTreatmentS" value="なし" checked>なし</label>
+								<label><input type="checkbox" name="otherTreatmentS" value="高血圧" >HT</label>						
+								<label><input type="checkbox" name="otherTreatmentS" value="糖尿病" >DM</label>						
+								<label><input type="checkbox" name="otherTreatmentS" value="高脂血症" >HL</label>
+								<label><input type="checkbox" name="otherTreatmentS" value="高尿酸血症" >高尿酸</label>
+								<label><input type="checkbox" name="otherTreatmentS" value="不整脈" >不整脈</label>
+							</p>
+						</li>
+						<li>転機
+							<p>
+								<label><input type="radio" name="dischargeS" value="自宅退院" checked >自宅</label>
+								<label><input type="radio" name="dischargeS" value="西1回復期病棟へ転科" >西1</label>
+								<label><input type="radio" name="dischargeS" value="西2療養型病棟へ転科" >西2</label>
+								<label><input type="radio" name="dischargeS" value="転院" >転院</label>
+								<label><input type="radio" name="dischargeS" value="施設退院" >施設</label>
+							</p>
+						</li>
+				</form>
+			
+				<div class="button">
+					<form id="csummary">
+						<input type="button" id="createsummary" value="作成" onclick="createRecord()">
+					</form>
+				</div>		
+			</div>
+
+			<div class="outputpage">退院サマリ
+				<form id="sum">
+					<textarea class='outputTextArea' name = "asummary" id="asummary" rows="70" cols="70"></textarea>
+				</form>
+			</div>
+		</div>		
+	</body>
+</html>
+	
+		

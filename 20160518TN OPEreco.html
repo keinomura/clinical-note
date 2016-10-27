@@ -1,0 +1,229 @@
+<!-- 
+	
+	id, nameを間違えると動かない．基本的にいじりたい要素はidにしておかないと後で大変な目を見る
+	
+	2016/05/11
+	JQuery入れた
+	#導入した
+	
+	2016/05/18
+	構文チェック　Another HTML Lintで確認した。
+	
+-->
+
+
+
+<!DOCTYPE HTML>
+<html lang="ja">
+	<head>
+		<title>TN手術記録</title>
+		<meta charset="UTF-8">
+		        <script src="jquery-1.12.0.min.js"></script>
+
+
+<!-- 
+	style 設定 
+-->
+<link rel="stylesheet" href="opeRecoStyle.css" type="text/css">
+<!--
+		<style type="text/css">
+		.boxA {
+			content: "";
+			display: block;
+			clear: both
+		}
+		.inputpage{
+			float: left;
+			width: 500px;
+		}
+		.outputpage{
+			float: left;
+			/*width: 700px;*/
+		}
+		
+		</style>
+		-->
+<!--
+	JavaScript記述
+-->
+	
+		
+		<script>
+
+
+//手術記録記載
+
+function createOPErecord(){
+	
+	// Sample -- var sByohenR = $('input[name=ByouhenBui]:checked').val();   //病変側取得
+	
+	
+	//全てのボタンの値を手に入れる
+	//var vdentist = $('input[name=dentalHistory]:checked').val()
+//	var vBotox = $('input[name=BotoxHistory]:checked').val();
+	var vopeSide = $('input[name=OPE-side]:checked').val(); 
+	var vopeTime = $('input[name=OPE-kaisu]:checked').val();
+//	var vJimei = $('input[name=Jimei]:checked').val();
+	var vAirCell = $('input[name=Masitoid]:checked').val();
+	var vIPV = $('input[name=IPV]:checked').val();
+	var vOffendingAArray = $('input[name=Offeinding]:checked').map(function(){
+		return $(this).val();
+		}).get();
+	var vOffendArtery = vOffendingAArray.join(',');
+	var vpainAreaArray = $('input[name=painAreaS]:checked').map(function(){
+	return $(this).val();
+	}).get();
+	var vpainArea = vpainAreaArray.join(',');
+	var vtVA = $('input[name=transVA]:checked').val();
+	var vdetail = document.getElementById("Syoken").value;
+	var vdentist = $('input[name=dentistS]:checked').val();
+
+	// #つきでそれぞれの検出項目をつける。
+//	var hashBotox = '#Botox既往 ' + vBotox;
+	var hashdental = '#歯科治療歴:' + vdentist;
+	var hashAirCell = '#AirCell開放:' + vAirCell;
+	var hashIPV = '#IPV:' + vIPV;
+	var hashOffendArtery = '#責任血管:' + vOffendArtery;
+	var hashVA = '#VA移動:' + vtVA;
+	var hashpainArea = '#疼痛領域:' + vpainArea
+//	var hashJimei = '#耳鳴' + vJimei;
+
+// hashtag まとめ
+	var hashAll = '\r\r' + hashdental + '\r' + hashpainArea + '\r' + hashAirCell + '\r' + hashIPV + '\r' + hashOffendArtery + '\r' + hashVA;
+	
+var avar = document.getElementById("asummary");
+
+avar.value = vopeSide + "三叉神経痛" + "\r\r今回手術は" + vopeTime + "\r\r健側側臥位。retrosigmoid approachにて行った。皮膚切開､開頭範囲は型通りに施行した｡開頭の際のmastoid air cellの開放は" + vAirCell + "。硬膜はU宇状に切開し､４-０ﾆｭｰﾛﾛﾝにて吊り上げた。\r小脳表面にコッドマン脳綿を置き小脳を丁寧に圧排する。まずテント､斜台のコーナーを確認｡これをさらにくも膜を剥離しながら深部に至った｡錐体静脈を確認し周囲のくも膜を十分に剥離｡" + "\r\r錐体静脈は" + vIPV
++ "\r\r" + vdetail + "\r\r第V神経周囲に圧迫する構造が無いこと､出血部位が無いことを確認した。\r型どおりに閉頭し手術を終了した。" + hashAll;
+		} 
+
+		</script>
+	</head>
+	
+	
+	
+	
+	
+	<body>
+		<div class="titleBox">
+			三叉神経痛
+		</div>
+
+<!--
+手術記録項目
+	歯科治療 dentist
+	手術側 opeside
+	痛み部位 painArea
+	手術回数 OPEKaisu
+	MasitoidAirCell開放 MastoidAirCell
+	錐体静脈の保存 IPV
+	責任血管 OffeindingA
+	VAの移動 tVA	
+-->
+
+		<div class="boxA">
+			<div class="inputpage" id="inputpage">
+					<form id="inputform">
+						<ul>
+							<!--
+							<li>
+								ボトックス既往
+								<input type="radio" name="BotoxHistory" value="あり" >あり
+								<input type="radio" name="BotoxHistory" value="なし" checked >なし
+							</li>
+							-->
+							<li>
+								歯科治療歴
+								<input type="radio" name="dentistS" value="あり" >あり
+								<input type="radio" name="dentistS" value="無し" checked>無し
+							</li>
+							<li>
+								手術側
+								<input type="radio" name="OPE-side" value="右" >右
+								<input type="radio" name="OPE-side" value="左" checked>左
+							</li>
+							<li>
+								症状領域
+								<p>
+									<label><input type="checkbox" name="painAreaS" value="一枝" >I</label>
+									<label><input type="checkbox" name="painAreaS" value="二枝" checked>II</label>			
+									<label><input type="checkbox" name="painAreaS" value="三枝" >III</label>
+								</p>
+							</li>
+							<li>
+								手術回数
+								<input type="radio" name="OPE-kaisu" value="初回" checked>初回
+								<input type="radio" name="OPE-kaisu" value="再手術" >再手術
+								<input type="radio" name="OPE-kaisu" value="再々手術" >再々手術
+							</li>
+							<!--
+							<li>
+								耳鳴
+								<input type="radio" name="Jimei" value="あり" >あり
+								<input type="radio" name="Jimei" value="なし" checked>なし
+							</li>
+							-->
+							<li>					
+								Mastoid air Cell開放
+								<input type="radio" name="Masitoid" value="あり" >あり
+								<input type="radio" name="Masitoid" value="なし" checked>なし
+							</li>											
+							<li>											
+								錐体静脈の温存
+								<input type="radio" name="IPV" value="全て温存" >全て温存
+								<input type="radio" name="IPV" value="一部切断" checked>一部切断
+							</li>					
+							<li>
+								責任血管
+								<p>
+									<label><input type="checkbox" name="Offending" value="SCA" checked>SCA</label>
+									<label><input type="checkbox" name="Offending" value="BA" >BA</label>			
+									<label><input type="checkbox" name="Offending" value="AICA" >AICA</label>
+									<label><input type="checkbox" name="Offending" value="PICA" >PICA</label>
+									<label><input type="checkbox" name="Offending" value="VA" >VA</label>
+									<label><input type="checkbox" name="Offending" value="AICA/PICA trunk" >AICA/PICA trunk</label>
+									<label><input type="checkbox" name="Offending" value="静脈" >静脈</label>
+									<label><input type="checkbox" name="Offending" value="癒着" >PICA</label>				
+									<label><input type="checkbox" name="Offending" value="branch of AICA" >branch of AICA</label>
+									<label><input type="checkbox" name="Offending" value="branch of PICA" >branch of PICA</label>
+								</p>
+							</li>
+							<li>						
+								VAの移動
+								<input type="radio" name="transVA" value="あり" >あり
+								<input type="radio" name="transVA" value="なし" checked>なし
+							</li>
+							<li>
+								術中所見
+								<p>
+									<textarea class="inputTextArea" name = "Syoken" id="Syoken" rows="8" cols="45" ></textarea>
+								</p>
+							</li>
+						</ul>
+					</form>
+
+				<div class="button">
+					<form id="csummary">
+						<input type="button" id="createsummary" value="作成" onclick="createOPErecord()">
+					</form>
+				</div>
+			</div>
+				<div class="outputpage">
+					<div class="opetitle">
+						<label>手術病名</label><input type="text" name="opeName" value="三叉神経痛" onFocus="this.select();" readonly><br>
+						<label>術後手術病名</label><input type="text" name="opeName" value="同上" onFocus="this.select();" readonly><br>
+						<label>K-code</label><input type="text" name="kCode" value="K160-2 頭蓋内微小血管減圧術" onFocus="this.select();" readonly><br>
+            		</div>
+					<div class="opeNote">
+						手術記録
+						<form id="sum">
+							<textarea class="outputTextArea" name = "asummary" id="asummary" rows="30" cols="70"></textarea>
+						</form>
+					</div>
+				</div>
+			</div>		
+	</body>
+	
+	</html>
+	
+		

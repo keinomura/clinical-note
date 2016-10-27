@@ -1,0 +1,150 @@
+<!-- 
+	
+	id, nameを間違えると動かない．基本的にいじりたい要素はidにしておかないと後で大変な目を見る
+	
+    2016/02/05
+    JQuery使うようにした。
+    術者選択はonFocusでやった方が効率が良さそう。
+    SelectorはJQueryのchosenを使った方が検索もできて良さそう。
+    
+    2016/02/15
+    術者選択はTextでonFocusにする。15Feb15
+    術者選択、病名選択　リフレッシュボタンを作成する readonlyで対応 15Feb15
+
+
+    次回の課題   
+    
+    フォントを揃える
+    手術記録TextBox大きさ、幅を減らす
+    手術分類のSelectorを作る
+
+	TODO: BOX並べる。padding設定すると並べない。
+
+-->
+
+
+
+<!DOCTYPE HTML>
+<html lang="ja">
+	<head>
+		<title>CSDHプログラム</title>
+
+		<meta charset="UTF-8">
+        <script src="jquery-1.12.0.min.js"></script>
+<!-- 
+	style 設定 
+-->		        
+		<link rel="stylesheet" href="opeRecoStyle.css" type="text/css">
+<!--
+	JavaScript記述
+-->
+		<script>	
+			var gByouhen = "右";
+			var gOPEBui = "右";
+			var fSide = "右";
+
+//病変部位　ラジオボタン選択処理
+
+			function sByohen(){
+
+				var sByohenR = $('input[name=ByouhenBui]:checked').val();   //病変側取得
+				gByouhen = sByohenR;                                        //grobal変数に入れる
+
+				if (sByohenR != "両側"){                                    //片側だったら手術側,最初の手術側まで入力
+				$('input[name=OPE-side]').val([gByouhen]);gOPEBui=sByohenR;
+				$('input[name=F-OPE-side]').val([gByouhen]);fSide=sByohenR;
+				}
+			}
+
+//手術側　ラジオボタン選択処理
+
+			function sOPEside(){
+//radio buttonの選択した値を取得する
+				var sOPEsideR = $('input[name=OPE-side]:checked').val();gOPEBui=sOPEsideR;
+
+				if (sOPEsideR != "両側"){                                     //片側だったら最初の手術側まで入力
+				$('input[name=F-OPE-side]').val([sOPEsideR]);fSide=sOPEsideR;fSide=sOPEsideR
+				}
+			}
+
+//手術記録記載　手術側　片側、両側で分類する
+
+			function createOPErecord(){
+				//alert('in!');
+				//print('in!');
+				var opeTime = $('input[name=OPE-kaisu]:checked').val();
+
+				var operecotext = '';
+				if(gOPEBui != "両側"){
+					operecotext = gByouhen + "慢性硬膜下血腫\r" + "今回手術は" + gOPEBui + " " + opeTime + "\r\r" + gOPEBui + "慢性硬膜下血腫に対してBurrhole drainageを施行した｡健側に約30度回旋させ､馬蹄にテープで頭部を固定した｡病側外耳孔からOMlineに垂直に9cmの位置にBurrholeを開けるべくlinearな皮切をデザイン｡消毒後局所麻酔を行った。型通りの皮切後､Burrholeを開けた｡骨の止血後にバイポーラにて十分な硬膜の凝固を行った｡ドレーンを皮下に通した｡尖刃で硬膜を十字切開した後､硬膜をバイポーラにて凝固｡直下に血腫確を確認した｡血腫外膜を凝固切開し､速やかにドレーンを血腫腔内に挿入した｡骨外板から5cmの位置に固定した｡ドレーン周囲Burrhole内にサージセルを充填した｡バーホールボタン使用｡皮膚を3-0ニューロロンにて縫合し閉創した";
+
+				} else {
+					var fopeside = $('input[name=F-OPE-side]:checked').val();
+					operecotext = gByouhen + "慢性硬膜下血腫\r" + "今回手術は" + gOPEBui + " " + opeTime + "\r\r" + "慢性硬膜下血腫に対してBurrhole drainageを施行した｡馬蹄にテープで頭部を固定した｡両側外耳孔からOM lineに垂直に9cmの位置、前方に3cmにBurrholeを開けるべく両側にlinearな皮切をデザイン｡消毒後局所麻酔を行った。\rまず、" + fopeside + "側を行った。\r型通りの皮切後､Burrholeを開けた｡骨の止血後にバイポーラにて十分な硬膜の凝固を行った｡ドレーンを皮下に通した｡尖刃で硬膜を十字切開した後､硬膜をバイポーラにて凝固｡直下に血腫外膜を確認した｡血腫外膜を凝固切開し､速やかにドレーンを血腫腔内に挿入した｡骨外板から5cmの位置に固定した｡ドレーン周囲Burrhole内にサージセルを充填した｡バーホールボタン使用｡皮膚を3-0ニューロロンにて縫合し閉創した。\r\r次いで対側も同様の手技で行い終了した。"
+
+				}
+			$('textarea[name=asummary]').val(operecotext);
+			//$( ".drNames" ).append( $("onchange='value=test' )");
+			}
+		</script>
+	</head>
+	
+	<body>
+		<div class="titleBox">
+			慢性硬膜下血腫
+		</div>
+		<div class="boxA">
+			<div class="inputpage">
+				<form id="inputform">
+					<ul>
+						<li>病変部位
+							<input type="radio" name="ByouhenBui" value="右" checked onclick="sByohen()">右
+							<input type="radio" name="ByouhenBui" value="左" onclick="sByohen()">左
+							<input type="radio" name="ByouhenBui" value="両側" onclick="sByohen()">両側
+						</li>
+						<li>手術側
+							<input type="radio" name="OPE-side" value="右" checked onclick="sOPEside()">右
+							<input type="radio" name="OPE-side" value="左" onclick="sOPEside()">左
+							<input type="radio" name="OPE-side" value="両側" onclick="sOPEside()">両側
+						</li>
+						<li>最初の手術側
+							<input type="radio" name="F-OPE-side" value="右" checked >右
+							<input type="radio" name="F-OPE-side" value="左" >左
+						</li>
+						<li>手術回数
+							<input type="radio" name="OPE-kaisu" value="初回" checked>初回
+							<input type="radio" name="OPE-kaisu" value="再手術" >再手術
+							<input type="radio" name="OPE-kaisu" value="再々手術" >再々手術
+						</li>
+					</ul>						
+											
+				<div class="button">	
+					<form id="csummary">
+					<input type="button" id="createsummary" value="作成" onclick="createOPErecord()">
+					</form>
+				</div>
+						
+			</div>
+
+			<div class="outputpage">
+	            <div class="opetitle">
+                    <label>手術病名</label><input type="text" name="opeName" value="穿頭ドレナージ術" onFocus="this.select();" readonly><br>
+                    <label>術後手術病名</label><input type="text" name="opeName" value="同上" onFocus="this.select();" readonly><br>
+	                 <label>K-code</label><input type="text" name="kCode" value="K164-2 慢性硬膜下血腫穿孔洗浄術" onFocus="this.select();" readonly><br>
+              	</div>
+
+				<div class="opeNote">
+					手術記録
+						<form id="sum">
+							<textarea class="outputTextArea" name = "asummary" id="asummary" rows="20" cols="70" value="sadfa" onfocus="this.select();"></textarea>
+						</form>
+				</div>
+			</div>
+
+        </div>   		
+	
+	</body>
+	
+	</html>
+	
+		

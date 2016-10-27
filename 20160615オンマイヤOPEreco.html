@@ -1,0 +1,93 @@
+<!-- 
+	2016/06/15作成開始
+-->
+
+
+
+<!DOCTYPE HTML>
+<html lang="ja">
+	<head>
+		<title>オンマイヤ手術記録</title>
+		<meta charset="UTF-8">
+		        <script src="jquery-1.12.0.min.js"></script>
+
+
+<!-- 
+	style 設定 
+-->
+		<link rel="stylesheet" href="opeRecoStyle.css" type="text/css">
+
+<!--
+	JavaScript記述
+-->
+		<script>
+//手術記録記載
+
+			function createOPErecord(){				
+//全てのtextboxの値を手に入れる
+				var vlocation = document.getElementById("location").value;
+				var vtumorType = document.getElementById("tumorType").value;
+		
+				var avar = document.getElementById("asummary");
+//サマリ作成
+				avar.value = vlocation + vtumorType + "\r\r手術に先立ち腫瘍の位置、開頭部位を術前CTにて確認する。\r"
+				+ "皮切は挿入部位を中心としてU字においた。型通り皮膚切開し、皮弁を翻転させた。"
+				+ "バーホールを開け、オンマイヤレザボアが納まるように周囲を削る。"
+				+ "硬膜を凝固したのち切開。脳表も凝固し切開。"
+				+ "オンマイヤレザボアを脳表に垂直に挿入し、嚢胞内に入った事を確認後オンマイヤレザボアを固定。\r"
+				+ "内容液を可及的に吸引し、一部細胞診に提出した。型どおりに閉頭し手術を終了した。";
+			} 
+		</script>
+	</head>
+	
+	
+	
+	
+	
+	<body>
+		<div class="titleBox">
+			オンマイヤ
+		</div>
+		<div class="boxA">
+			<div class="inputpage" id="inputpage">
+
+<!--
+手術記録項目
+	手術部位 location
+	腫瘍種類 tumorType
+-->
+				手術部位
+				<form id="inputform">
+					<ul>
+						<li>
+							<textarea class="inputTextArea" name = "locationS" id="location" rows="3" cols="45" >手術部位</textarea>
+						</li>
+						<li>
+							<textarea class="inputTextArea" name = "tumorTypeS" id="tumorType" rows="3" cols="45" >腫瘍分類</textarea>
+						</li>
+					</ul>
+				</form>
+				<div class="button">
+					<form id="csummary">
+						<input type="button" id="createsummary" value="作成" onclick="createOPErecord()">
+					</form>
+				</div>
+			</div>
+			<div class="outputpage">
+					<div class="opetitle">
+						<label>手術病名</label><input type="text" name="opeName" value="嚢胞性腫瘍" onFocus="this.select();" readonly><br>
+						<label>術後手術病名</label><input type="text" name="opeName" value="同上" onFocus="this.select();" readonly><br>
+						<label>K-code</label><input type="text" name="kCode" value="オンマヤレザボア留置術" onFocus="this.select();" readonly><br>
+            		</div>
+					<div class="opeNote">
+						手術記録
+						<form id="sum">
+							<textarea class="outputTextArea" name = "asummary" id="asummary" rows="30" cols="70"></textarea>
+						</form>
+					</div>
+				</div>	
+		</div>
+	</body>	
+</html>
+	
+		

@@ -1,0 +1,308 @@
+<!-- 1.一般的な入院時サマリの作成
+2.　GCSからJCSを抽出する
+3.　名大分類作成
+
+ver1.1 2016/05/11
+1. 発症前mRS 入力項目追加
+2. 既往歴、家族歴　特記すべきことなし　追加
+3. 若干のレイアウト変更
+
+ver1.2 2016/05/18
+1. 構文チェック Another HTML Lintで
+-->
+
+
+
+<!DOCTYPE HTML>
+<html lang="ja">
+	<head>
+		<title>入院サマリプログラム</title>
+		
+		<meta charset="UTF-8">
+		<script src="jquery-1.12.0.min.js"></script>        
+		<link rel="stylesheet" href="opeRecoStyle.css" type="text/css">
+<!-- JScode -->
+		<script>
+// create summary
+			function summary(){
+
+// get all var
+
+				var vriskfactorsArray = $('input[name=riskfactors]:checked').map(function(){
+					return $(this).val();
+					}).get();
+				var vriskfactors = vriskfactorsArray.join(',');
+				var vQQ = $('input[name=QQ]:checked').val();
+				var votHP = $('input[name=otherHP]:checked').val();
+
+				var rkftt = " " + vriskfactors;
+// textreplaced():add a title of each sentence, replacement \r to \s
+				var chif = textreplaced ("【主訴】", "chiefcomplain"); 
+				var preshist = textreplaced ("\r【現病歴】", "presenthistory");
+				var pasthist = textreplaced ("\r【既往歴,家族歴】" + rkftt + "\r", "pasthistory");
+				var exm = textreplaced ("\r【入院時現症】", "exam");
+				
+				var QQt = "\rQQ" + vQQ;
+				var otHP = "紹介:" + votHP;
+
+				var GCSgt = "\rGCS:" + GCS("GCS");
+				var GCSjt = GCS("JCS");
+				var premRS = " 発症前mRS:" + document.getElementById("premRS").value;
+
+				document.sum.summary.value = chif + preshist + pasthist + GCSgt + exm + "\r" + document.getElementById("class3").value + "\r---------医事課使用データ----------"+QQt + otHP  + GCSjt +  premRS;
+			}
+			
+// function:textreplaced():add a title of each sentence, replacement \r to \s
+			function textreplaced (title, aID1) {
+				var atext = document.getElementById(aID1);
+				return  title + atext.value.replace(/\r?\n|\t/g,"\s");
+			}
+	
+//Calc GCS & JCS from E,V,M
+			function GCS(gj){
+				
+				var resultE = $('input[name=E]:checked').val();
+				var resultV = $('input[name=V]:checked').val();
+				var resultM = $('input[name=M]:checked').val(); 
+//Calc GCS					  
+				if (gj == "GCS"){
+						return "E:"+ resultE + "V:" + resultV + "M:" + resultM + "  " + (parseInt(resultE)+parseInt(resultM)+parseInt(resultV)); 
+				
+				}else if (gj == "JCS"){
+//Calc JCS
+				var E = resultE;
+				var V = resultV;
+				var M = resultM;				
+				var jCSvalue = "";
+			
+				if(E == "4"){
+					var jCSIArray = new Array("I-3","I-3","I-2","I-2","I-0");
+					jCSvalue = jCSIArray[V-1];
+				}else if(E == "3"){
+					jCSvalue = "II-10";	
+				}else if (E == "2"){
+					jCSvalue = "II-30";
+				}else if (E == "1"){
+					var jCSIIIArray = new Array("III-300","III-200","III-200","III-200","III-100","III-100");
+					jCSvalue = jCSIIIArray[M-1];
+				}
+				
+				return " JCS: " + jCSvalue;	
+			}		
+		}
+
+
+//////////////////////////////
+// dis classify array
+//////////////////////////////
+
+			var MiddleClass = ["", "神経上皮組織性", "神経鞘腫性", "髄膜性", "リンパ腫・造血性", "胚細胞性", "トルコ鞍部", "転移性", "その他"];
+			var disName = [];
+
+// 脳腫瘍　中分類
+			disName["神経上皮組織性"] = ["#001 pilocytic astrocytoma", "#002 pilomyxoid astrocytoma", "#003 plemorphic xanthoastrocytoma", "#004 astrocytoma→diffuse astrocytoma", "#005 malignant astrocytoma→anaplastic astrocytoma", "#006 glioblastoma", "#007 oligodendroglioma", "#008 anaplastic oligodendroglioma", "#009 subependymoma", "#010 myxopapillary ependymoma", "#011 ependymoma", "#012 anaplastic ependymoma ", "#013 mixed glioma→oligoastrocytoma", "#014 anaplastic oligoastrocytoma", "#015 choroid pl. papilloma", "#016 atypical choroid pl. papilloma", "#017 choroid pl. carcinoma", "#018 ganglioglioma and gangliocytoma", "#019 central neurocytoma and extraventricular neurocytoma", "#020 desmoplastic infantile astrocytoma and ganglioglioma", "#021 desmoplastic neuroepithelial tumor", "#022 cerebellar liponeurocytoma", "#023 papillary glioneuronal tumor", "#024 rosette-forming glioneuronal tumor", "#025 paraganglioma(spinal)", "#026 pineocytoma", "#027 pineal parenchymal tumor of intermediate differentiation", "#028 pineoblastoma", "#029 papillary tumor of the pineal region", "#030 neuroblastoma", "#031 medulloblastoma", "#032 PNET", "#033 atypical teratoid/rhabdoid tumor(AT/RT)", "#034 other embryonal tumor"];
+			disName["神経鞘腫性"] = ["#035 schwannoma (trigeminal)", "#036 schwannoma (acoustic)", "#037 schwannoma (others)", "#038 malignant schwannoma", "#039 neurofibroma", "#040 perineurinoma", "#041 malignant peripheral nerve sheath tumor(MPNST)"];
+			disName["髄膜性"]　= ["#042 meningioma (convexity)", "#043 meningioma (parasagital)", "#044 meningioma (falx)", "#045 meningioma (olfactory groove)", "#046 meningioma (tuberculum sellae)", "#047 meningioma (sphenoid ridge)", "#048 meningioma (tentorium)", "#049 meningioma (posterior fossa)", "#050 meningioma (spinal)", "#051 meningioma (others)", "#052 atypical meningioma", "#053 anaplastic meningioma", "#054 mesenchymal, non-meningothelial tumors", "#055 hemangiopericytoma", "#056 melanocytic lesions", "#057 solitary fibrous tumor ", "#058 melanoma", "#059 sarcoma", "#060 other meningeal tumor", "#061 astroblastoma", "#062 chordoid glioma of the third ventricle", "#063 angiocentric glioma"];
+			disName["リンパ腫・造血性"] = ["#064 malignant lymphoma", "#065 other hematopoietic tumor"];
+			disName["胚細胞性"] = ["#066 germinoma", "#067 embryonal carcinoma", "#068 choriocarcinoma", "#069 york sac tumor", "#070 mature teratoma", "#071 immature teratoma", "#072 mixed germ cell tumor", "#073 Teratoma with malignant transformation"];
+			disName["トルコ鞍部"] = ["#074 Rathke's cleft cyst", "#075 epidermoid cyst", "#076 dermoid cyst", "#077 colloid cyst", "#078 hamartoma", "#079 other cystic/tumor like lesion", "#080 non-functioning adenoma", "#081 prolactinoma", "#082 acromegaly", "#083 Cushing disease", "#084 TSHoma", "#085 other pituitary tumor", "#086 craniopharyngioma", "#087 chordoma", "#088 chondrosarcoma", "#089 other regional tumor", "#090 hemangioma", "#091 cavernous angioma", "#092 venous angioma", "#093 hemangioblastoma"];
+			disName["転移性"] = ["#094 metastatic tumor (lung)", "#095 metastatic tumor (breast)", "#096 metastatic tumor (colon)", "#097 metastatic tumor (kidney)", "#098 metastatic tumor (others)", "#099 metastatic tumor (leptomeningeal)", "#100 metastatic tumor (unknown)"];
+			disName["その他"] = ["#101 gliomatosis cerbri", "#102 unverified tumor", "#103 paracranial tumor "];
+
+
+// 脳腫瘍以外分類
+			disName["血管障害"] = ["#104 saccular aneurysm (ruptured)", "#105 saccular aneurysm (unruptured)", "#106 fusiform aneurysm (ruptured)", "#107 fusiform aneurysm (unruptured)", "#108 bacterial aneurysm (ruptured)", "#109 bacterial aneurysm (unruptured)", "#110 dissecting aneurysm (ruptured)", "#111 dissecting aneurysm (unruptured)", "#112 traumatic aneurysm (ruptured)", "#113 traumatic aneurysm (unruptured)", "#114 AVM", "#115 Galenic AVM", "#116 dural AVF", "#117 Direct CCF", "#118 ICH", "#119 pure IVH", "#120 infantile ICH/IVH", "#121 infarction (main trunk)", "#122 infarction (other)", "#123 TIA", "#124 sinus thrombosis", "#125 moyamoya disease", "#126 other vascular lesion"];
+			disName["外傷"] = ["#127 skull fructure", "#128 epidural hematoma", "#129 subdural hematoma", "#130 subdural effusion", "#131 traumatic ICH", "#132 traumatic SAH", "#133 traumatic IVH", "#134 chronic SDH", "#135 concussion", "#136 contusion", "#137 CSF leak", "#138 intracranial hypotension", "#139 meningitis", "#140 posttraumatic sequela", "#141 other traumatic lesion"];
+			disName["小児奇形"] = ["#142 cranial dysraphism", "#143 Dandy-Walker synd.", "#144 Chiari malformation", "#145 spinal dysraphism", "#146 tethered cord", "#147 lumbosacral lipoma", "#148 hydrocephalus", "#149 arachnoid cyst", "#150 other cystic lesion", "#151 craniosinostosis", "#152 CMJ malformation ", "#153 other malformation"];
+			disName["脊椎"] = ["#154 spinal tumor (extradural)", "#155 spinal tumor (intradural extramed.)", "#156 spinal tumor (intramedullary)", "#157 spinal dural AVF", "#158 spinal perimedullary AVF", "#159 spinal AVM", "#160 cervical soft disc ", "#161 cervical spondylosis", "#162 lumbar herniation", "#163 lumber canal stenosis", "#164 lumbar spondylolisthsis", "#165 spinal deformity (degenerative scoliosis)", "#166 thoracic degenerative disease", "#167 OPLL", "#168 OYL/CYL", "#169 spinal infection", "#170 syringomyelia", "#171 Chiari malformation", "#172 Other anomaly", "#173 Spine trauma", "#174 Other spinal lesions"];
+			disName["機能外科"] = ["#175 hemifacial spasm", "#176 trigeminal neuralgia", "#177 other neurovascular comp.", "#178 Parkinson disease", "#179 essential tremor", "#180 dystonia", "#181 other movement disorder", "#182 pain", "#183 spasticity", "#184 epilepsy"];
+			disName["炎症疾患"] = ["#185 brain abscess", "#186 epidural abscess", "#187 subdural abscess", "#188 meningitis", "#189 encephalitis", "#190 chronic inframatory disease", "#191 others inframatory disease"];
+			disName["末梢神経"] = ["#192 thoracic outlet syndrome", "#193 carlpal tunnel syndrome", "#194 cubital tunnel syndrome", "#195 tarsal tunnel syndrome", "#196 other entrapment syndrome", "#197 traumatic lesion"];
+			disName["その他"] = ["#198 orbital leison", "#199 skull lesion", "#200 degenerative lesion", "#201 neuropathy/encephalopathy", "#202 others"];
+/*
+//change C1(major class)
+			function populate(c1,c2,c3) {
+
+				var s1 = document.getElementById('class1');
+				var s2 = document.getElementById('class2');
+				var s3 = document.getElementById('class3');
+
+				s2.innerHTML = "";
+				s3.innerHTML = "";
+//choice brain tumor or not
+				if (s1.value == "脳腫瘍") {
+					optionadd (MiddleClass, s2);
+				} else {
+				var disNameArray = disName[s1.value];
+					optionadd (disNameArray, s3);
+				}
+			}
+*/
+//change C1(major class)
+			function populate(c1, c2, c3) {
+				var s1 = document.getElementById(c1);
+				var s2 = document.getElementById(c2);
+				var s3 = document.getElementById(c3);
+
+				s2.innerHTML = "";
+				s3.innerHTML = "";
+//choice brain tumor or not
+				if (s1.value == "脳腫瘍") {
+					optionadd (MiddleClass, s2);
+				} else {
+				var disNameArray = disName[s1.value];
+					optionadd (disNameArray, s3);
+				}
+			}
+
+// change C2(middle class) to set C3 lists
+			function populate2(c2, c3) {
+				var s22 = document.getElementById(c2);
+				var s23 = document.getElementById(c3);
+				s23.innerHTML ="";
+				var disNameArray3 = disName[s22.value];
+					optionadd (disNameArray3, s23);
+			}
+
+// Selectにリストから選択してoptionを生成する
+			function optionadd (aArray, targetdocID) {
+				for (var aElement in aArray) {
+					var anewOption = document.createElement("option");
+					targetdocID.options.add(anewOption);
+					anewOption.value = aArray[aElement];
+					anewOption.innerHTML = aArray[aElement];
+
+				}	
+			}
+
+		</script>
+	</head>
+	
+	
+	<body>
+		<div class="titleBox">
+			入院サマリ
+		</div>
+		<div class="boxA">
+			<div class="inputpage">
+					<form id="inputform">
+						<ul>
+							<li>
+								主訴<input type="text" id="chiefcomplain" value="" tabindex="1" style="margin-left: 0.5em; width:20em;">
+							</li>
+							<li>
+								現病歴
+								<p>
+									<textarea class='inputTextArea' id="presenthistory" rows="8" cols="45" tabindex="2">現病歴</textarea>
+								</p>
+							</li>
+							<li>
+								救急搬送
+								<p>
+								<input type="radio" name="QQ" value="あり">あり
+								<input type="radio" name="QQ" value="なし" checked>なし
+								</p>
+							</li>
+							<li>
+								他院から紹介
+								<p>
+								<input type="radio" name="otherHP" value="あり">あり
+								<input type="radio" name="otherHP" value="なし" checked>なし
+								</p>
+							</li>
+							<li>既往歴
+								<p>
+									<label><input type="checkbox" name="riskfactors" value="高血圧">高血圧</label>
+									<label><input type="checkbox" name="riskfactors" value="糖尿病">糖尿病</label>
+									<label><input type="checkbox" name="riskfactors" value="狭心症">狭心症</label>
+									<label><input type="checkbox" name="riskfactors" value="不整脈">不整脈</label>
+									<label><input type="checkbox" name="riskfactors" value="喫煙">喫煙</label>
+									<label><input type="checkbox" name="riskfactors" value="飲酒">飲酒</label>
+									<label><input type="checkbox" name="riskfactors" value="家族歴">家族歴</label>
+								</p>
+								<p>
+								<textarea class="inputTextArea" id="pasthistory" rows="4" cols="45" tabindex="3" style='margin-top: 10px;'>その他特記すべきことなし</textarea>	<br>
+								</p>
+							</li>
+							<li>
+								入院時所見 &amp; GCS
+								<p>
+									E
+									<input type="radio" name="E" value="4" checked>4
+									<input type="radio" name="E" value="3">3
+									<input type="radio" name="E" value="2">2
+									<input type="radio" name="E" value="1">1													
+								</p>
+								<p>
+									V
+									<input type="radio" name="V" value="5" checked>5
+									<input type="radio" name="V" value="4">4
+									<input type="radio" name="V" value="3">3
+									<input type="radio" name="V" value="2">2
+									<input type="radio" name="V" value="1">1
+								</p>
+								<p>
+									M													
+									<input type="radio" name="M" value="6" checked>6
+									<input type="radio" name="M" value="5">5
+									<input type="radio" name="M" value="4">4
+									<input type="radio" name="M" value="3">3
+									<input type="radio" name="M" value="2">2
+									<input type="radio" name="M" value="1">1		
+								</p>
+								身体所見
+								<p>	
+								<textarea class='inputTextArea' id="exam" rows="8" cols="45" tabindex="4"></textarea>
+								</p>
+								<br>脳卒中発症前 mRS
+								<p>
+									<select id="premRS" name="premRS" >
+										<option value="0" selected>mRS 0:正常</option>
+										<option value="1">mRS 1:症候+、障害なし</option>
+										<option value="2">mRS 2:身の回りのことはできる</option>
+										<option value="3">mRS 3:歩けるが、外出は介助</option>
+										<option value="4">mRS 4:歩行、トイレ介助必要</option>
+										<option value="5">mRS 5:寝たきり</option>
+									</select>
+								</p>
+								</li>
+								<li>
+								病名
+								<p>	
+									<select id="class1" name="class1" onchange="populate('class1', 'class2', 'class3')" tabindex="5">
+										<option value="" selected>--</option>
+										<option value="脳腫瘍">脳腫瘍</option>
+										<option value="血管障害">血管障害</option>
+										<option value="外傷">外傷</option>
+										<option value="小児奇形">小児奇形</option>
+										<option value="脊椎">脊椎</option>
+										<option value="機能外科">機能外科</option>
+										<option value="炎症疾患">炎症疾患</option>
+										<option value="末梢神経">末梢神経</option>
+										<option value="その他">その他</option>
+									</select>
+
+									<select id="class2" name="class2" onchange="populate2(this.id, 'class3')" tabindex="6"></select>	
+
+									<select id="class3" name="class3" tabindex="7"></select>	
+								</p>
+							</li>
+						</ul>
+					</form>                   	
+					<div class="button">	
+						<form id="csummary">
+							<input type="button" id="createsummary" value="作成" onclick="summary()">
+						</form>
+					</div>			
+				</div>
+				<div class="outputpage">
+					入院時サマリー<BR>
+					<form name="sum">
+						<textarea class='outputTextArea' id="summary" rows="30" cols="70" tabindex="7">サマリ</textarea>
+					</form>
+				</div>
+			</div>
+	</body>
+</html>
+	
+		

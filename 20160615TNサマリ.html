@@ -1,0 +1,210 @@
+<!-- 
+	
+20160614 作成開始
+	
+-->
+
+
+
+<!DOCTYPE HTML>
+<html lang="ja">
+	<head>
+		<title>三叉神経痛サマリ</title>
+		<meta charset="UTF-8">
+		<script src="jquery-1.12.0.min.js"></script>
+<!-- 
+	style 設定 
+-->
+		<link rel="stylesheet" href="opeRecoStyle.css" type="text/css">
+<!--
+	JavaScript記述
+-->
+		<script>
+//サマリ記載
+			function createRecord(){
+	
+//全てのボタンの値を手に入れる
+				var vafterOPESymptom = $('select[id=afterOPESymptom]').val();
+				var vfinalSymptom = $('select[id=finalSymptom]').val();
+				var vcomplication = $('input[name=complicationS]:checked').val();
+				var vfinalDrug = $('select[id=finalDrug]').val();
+				var vdentist = $('input[name=dentistS]:checked').val();
+				var vopeside = $('input[name=opesideS]:checked').val();
+				var vOPEKaisu = $('input[name=OPEKaisuS]:checked').val();
+				var vMastoidAirCell = $('input[name=MastoidAirCellS]:checked').val();
+				var vIPV = $('input[name=IPVS]:checked').val();
+				var vOffendingAArray = $('input[name=OffeindingAS]:checked').map(function(){
+					return $(this).val();
+					}).get();
+				var vOffendingA = vOffendingAArray.join(',');
+				var vtVA = $('input[name=tVAS]:checked').val();
+				var vdischarge = $('select[id=discharge]').val();
+				var vpainAreaArray = $('input[name=painAreaS]:checked').map(function(){
+					return $(this).val();
+					}).get();
+				var vpainArea = vpainAreaArray.join(',');
+// #つきでそれぞれの検出項目をつける。
+			//	var hashBotox = '#Botox既往 ' + vBotox;
+				var hashdental = '#歯科治療歴' + vdentist;
+				var hashMastoidAirCell = '#AirCell開放' + vMastoidAirCell;
+				var hashIPV = '#IPVは' + vIPV;
+				var hashOffendingArtery = '#責任血管は' + vOffendingA;
+				var hashVA = '#VA移動' + vtVA;
+			//	var hashJimei = '#耳鳴' + vJimei;
+				var hashpainArea = '#疼痛領域:' + vpainArea
+
+			// hashtag まとめ
+				var hashAll = '\r\r' + hashdental + ' ' + hashpainArea + ' ' + hashMastoidAirCell + ' ' + hashIPV + ' ' + hashOffendingArtery + ' ' + hashVA;
+				
+
+//サマリ作成
+				var avar = document.getElementById("asummary");
+
+				avar.value = "【入院後経過】上記の通り脳神経減圧術を施行した。"
+				+ "周術期合併症は" + vcomplication
+				+ "。症状経過は" + vafterOPESymptom
+				 + "退院時には" + vfinalSymptom + "。"
+				 + "退院時内服は" + vfinalDrug + "。"
+				 +"経過良好にて退院。今後は" + vdischarge
+				 + hashAll
+				
+			} 
+
+		</script>
+	</head>
+	
+	<body>
+		<div class="titleBox">
+			三叉神経痛退院サマリ
+		</div>
+		<div class="boxA">
+			<div class="inputpage" id="inputpage">
+<!--
+サマリ項目
+	術後症状経過 afterOPESymptom
+	最終症状 finalSymptom
+	合併症 complication
+	最終的内服 finalDrug
+
+	歯科治療 dentist
+	手術側 opeside
+	手術回数 OPEKaisu
+	MasitoidAirCell開放 MastoidAirCell
+	錐体静脈の保存 IPV
+	責任血管 OffeindingA
+	VAの移動 tVA	
+
+	転機 discharge
+-->
+			<form id="inputform">
+				<ul>
+					<li>
+								症状領域
+								<p>
+									<label><input type="checkbox" name="painAreaS" value="一枝" >I</label>
+									<label><input type="checkbox" name="painAreaS" value="二枝" checked>II</label>			
+									<label><input type="checkbox" name="painAreaS" value="三枝" >III</label>
+								</p>
+							</li>
+					<li>
+						術後症状経過
+						<select id='afterOPESymptom'>
+							<option value='術直後から症状は消失。' >術直後から消失</option>
+							<option value='術直後に消失、数日後より症状再燃。術前よりは軽度。' >数日後症状再燃</option>
+							<option value='手術直後に症状消失には至らないが軽減した。' >軽減</option>
+							<option value='手術前と変化なし。' >変化なし</option>
+						</select>
+					</li>
+					<li>
+						最終症状
+						<select id='finalSymptom'>
+							<option value='症状消失' selected>症状消失</option>
+							<option value='症状は術前の半分以上残存' >症状は術前の半分以上残存</option>
+							<option value='症状は術前の半分以下' >症状は術前の半分以下</option>
+							<option value='症状は残存するが殆ど無い' >症状は残存するが殆ど無い</option>
+							<option value='症状は全く消失しなかった' >症状は全く消失しなかった</option>
+						</select>
+					</li>
+					<li>
+						合併症
+						<input type='radio' name='complicationS' value='あり' >あり
+						<input type='radio' name='complicationS' value='なし' checked>なし
+					</li>
+					<li>最終内服
+						<select id='finalDrug'>
+							<option value='drugfree' selected>drug_free</option>
+							<option value='術前より容量は減少した' >減少</option>
+							<option value='術前と変更なし' >術前と変更なし</option>
+						</select>
+					</li>
+					<li>
+						歯科治療
+						<input type='radio' name='dentistS' value='あり' >あり
+						<input type='radio' name='dentistS' value='なし' checked>なし
+					</li>
+					<li>
+						手術側
+						<input type='radio' name='opesideS' value='右' >右
+						<input type='radio' name='opesideS' value='左' checked>左
+					</li>
+					<li>
+						手術回数
+						<input type='radio' name='OPEKaisuS' value='初回' checked>初回
+						<input type='radio' name='OPEKaisuS' value='2回目' >2回目
+						<input type='radio' name='OPEKaisuS' value='3回目' >3回目
+					</li>
+					<li>
+						MasitoidAirCell開放
+						<input type='radio' name='MastoidAirCellS' value='あり' >あり
+						<input type='radio' name='MastoidAirCellS' value='なし' checked>なし
+					</li>
+					<li>
+						錐体静脈の保存
+						<input type='radio' name='IPVS' value='全部保存' checked>全部保存
+						<input type='radio' name='IPVS' value='一部切断' >一部切断
+					</li>
+					<li>
+						責任血管
+						<p>
+							<label><input type='checkbox' name='OffeindingAS' value='SCA' checked>SCA</label>
+							<label><input type='checkbox' name='OffeindingAS' value='BA' >BA</label>
+							<label><input type='checkbox' name='OffeindingAS' value='AICA' >AICA</label>
+							<label><input type='checkbox' name='OffeindingAS' value='PICA.VA' >PICA.VA</label>
+							<label><input type='checkbox' name='OffeindingAS' value='AICA/PICA_trunk' >AICA/PICA_trunk</label>
+							<label><input type='checkbox' name='OffeindingAS' value='静脈' >静脈</label>
+							<label><input type='checkbox' name='OffeindingAS' value='癒着' >癒着</label>
+							<label><input type='checkbox' name='OffeindingAS' value='branch_of_AICA' >branch_of_AICA</label>
+							<label><input type='checkbox' name='OffeindingAS' value='branch-of_PICA' >branch-of_PICA</label>
+						</p>
+					</li>
+					<li>
+						VAの移動
+						<input type='radio' name='tVAS' value='あり' >あり
+						<input type='radio' name='tVAS' value='なし' checked>なし
+					</li>
+					<li>
+						転機
+						<select id='discharge'>
+							<option value='当院外来でフォローアップ。' selected>当院外来でフォローアップ。</option>
+							<option value='紹介元でフォローアップを依頼。' >紹介元でフォローアップを依頼。</option>
+						</select>
+					</li>
+				</ul>
+			
+				<div class="button">
+					<form id="csummary">
+						<input type="button" id="createsummary" value="作成" onclick="createRecord()">
+					</form>
+				</div>		
+			</div>
+
+			<div class="outputpage">退院サマリ<BR>
+				<form id="sum">
+					<textarea class="outputTextArea" name = "asummary" id="asummary" rows="30" cols="70"></textarea>
+				</form>
+			</div>
+		</div>		
+	</body>
+</html>
+	
+		

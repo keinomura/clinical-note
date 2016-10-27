@@ -1,0 +1,100 @@
+<!-- 
+	
+20160615 作成開始
+	
+-->
+
+
+
+<!DOCTYPE HTML>
+<html lang="ja">
+	<head>
+		<title>DSA退院サマリ</title>
+		<meta charset="UTF-8">
+		<script src="jquery-1.12.0.min.js"></script>
+<!-- 
+	style 設定 
+-->
+		<link rel="stylesheet" href="opeRecoStyle.css" type="text/css">
+<!--
+	JavaScript記述
+-->
+		<script>
+//サマリ記載
+			function createRecord(){	
+//全てのボタンの値を取得
+				var vcomplication = $('input[name=complicationS]:checked').val();
+				var vdischarge = $('select[id=discharge]').val();
+//TextBoxの値を取得
+				var vdetail = document.getElementById("note").value;
+
+//サマリ作成
+				var avar = document.getElementById("asummary");
+
+				avar.value = "【入院後経過】上記の通りDSAを施行した。周術期合併症" + vcomplication + "。\r"
+				  + "検査所見は" + vdetail + "\r"
+				  + "経過良好にて退院となった。病変については" + vdischarge
+			} 
+		</script>
+	</head>
+	
+	
+	
+	
+	
+	<body>
+		<div class="titleBox">
+			DSA退院サマリ
+		</div>
+		<div class="boxA">
+			<div class="inputpage" id="inputpage">
+
+<!--
+サマリ項目
+	周術期合併症 complication
+	検査所見 note
+	フォローアップ discharge
+-->
+
+
+				<form id="inputform">
+					<ul>
+						<li>
+							周術期合併症
+							<label><input type="radio" name="complicationS" value="なし" checked>なし</label>
+							<label><input type="radio" name="complicationS" value="あり" >あり</label>
+						</li>
+					<li>
+			検査所見
+			<p>
+					<textarea class="inputTextArea" name = "noteS" id="note" rows="8" cols="45" >術中所見</textarea>
+			</p>
+					</li>
+					<li>
+				フォローアップ
+				<select id="discharge">
+					<option value="引き続き外来での経過観察となった。" selected>経過観察</option>
+					<option value="開頭手術治療の適応あり、今後治療予定となった。" >開頭手術適応</option>
+					<option value="血管内治療の適応あり、今後治療予定となった。" >血管内手術適応</option>
+					<option value="治療について、専門医に要相談となった。治療方針は外来にて決定する。" >コンサルト</option>
+				</select>
+					</li>
+				</ul>
+
+				<div class="button">
+					<form id="csummary">
+						<input type="button" id="createsummary" value="作成" onclick="createRecord()">
+					</form>
+				</div>		
+			</div>
+
+			<div class="outputpage">退院サマリ<BR>
+				<form id="sum">
+					<textarea class="outputTextArea" name = "asummary" id="asummary" rows="30" cols="70"></textarea>
+				</form>
+			</div>
+		</div>		
+	</body>
+</html>
+	
+		

@@ -1,0 +1,253 @@
+<!-- 
+	
+20160615 作成開始
+	
+-->
+
+
+
+<!DOCTYPE HTML>
+<html lang="ja">
+	<head>
+		<title>頚椎退院サマリ</title>
+		<meta charset="UTF-8">
+		<script src="jquery-1.12.0.min.js"></script>
+<!-- 
+	style 設定 
+-->
+		<link rel="stylesheet" href="opeRecoStyle.css" type="text/css">
+<!--
+	JavaScript記述
+-->
+		<script>
+//サマリ記載
+			function createRecord(){	
+//全てのボタンの値を手に入れる
+				var vopeLevel1Array = $('input[name=opeLevel1S]:checked').map(function(){
+					return $(this).val();
+					}).get();
+				var vopeLevel1 = vopeLevel1Array.join(',');
+				var vopeLevelBt1Array = $('input[name=opeLevelBt1S]:checked').map(function(){
+					return $(this).val();
+					}).get();
+				var vopeLevelBt1 = vopeLevelBt1Array.join(',');
+				var vopeName1 = $('select[id=opeName1]').val();
+				var vopeLevel2Array = $('input[name=opeLevel2S]:checked').map(function(){
+					return $(this).val();
+					}).get();
+				var vopeLevel2 = vopeLevel2Array.join(',');
+				var vopeLevelBt2Array = $('input[name=opeLevelBt2S]:checked').map(function(){
+					return $(this).val();
+					}).get();
+				var vopeLevelBt2 = vopeLevelBt2Array.join(',');
+				var vopeName2 = $('select[id=opeName2]').val();
+				var vcomplication = $('input[name=complicationS]:checked').val();
+				var vafterOpeSymptom = $('input[name=afterOpeSymptomS]:checked').val();
+				var vfinalSensory = $('input[name=finalSensoryS]:checked').val();
+				var vfinalMotor = $('input[name=finalMotorS]:checked').val();
+				var vfinalWalk = $('input[name=finalWalkS]:checked').val();
+				var vfinalFinger = $('input[name=finalFingerS]:checked').val();
+				var vdischarge = $('select[id=discharge]').val();
+
+
+
+//サマリ作成
+				var avar = document.getElementById("asummary");
+
+				avar.value = "【術式】" + vopeLevel1 + vopeLevelBt1 + ' ' + vopeName1 + ' ' + vopeLevel2 + vopeLevelBt2 + ' ' +vopeName2 + "\r"
+				+ "【入院後経過】上記の通り手術を施行した。周術期合併症" + vcomplication 
+				 + "。\r術後症状は" + vafterOpeSymptom + "。"
+				 + "最終症状は感覚障害:" + vfinalSensory + "、運動障害:" + vfinalMotor + "、歩行障害:" + vfinalWalk + "、巧緻運動障害:" + vfinalFinger
+				 + "。\r" + vdischarge
+				 
+			} 
+
+		</script>
+	</head>
+	
+	
+	
+	
+	
+	<body>
+		<div class="titleBox">
+			脊椎手術退院サマリ
+		</div>
+		<div class="boxA">
+			<div class="inputpage" id="inputpage">
+
+<!--
+サマリ項目
+	手術部位1 opeLevel1
+	手術部位椎間1 opeLevelBt1
+	術式1 opeName1
+	手術部位2 opeLevel2
+	手術部位椎間2 opeLevelBt2
+	術式2 opeName2
+
+	周術期合併症 complication
+
+	症状経過 afterOpeSymptom
+	感覚障害 finalSensory
+	運動障害 finalMotor
+	歩行障害 finalWalk
+	巧緻運動障害 finalFinger
+
+	フォローアップ discharge
+-->
+				<form id="inputform">
+					<ul>術式1
+						<li style="border: 0px;">
+							手術部位
+							<p class="check">	
+								<label><input type='checkbox' name='opeLevel1S' value='C2' >C2</label>
+								<label><input type='checkbox' name='opeLevel1S' value='C3' >C3</label>
+								<label><input type='checkbox' name='opeLevel1S' value='C4' >C4</label>
+								<label><input type='checkbox' name='opeLevel1S' value='C5' >C5</label>
+								<label><input type='checkbox' name='opeLevel1S' value='C6' >C6</label>
+								<label><input type='checkbox' name='opeLevel1S' value='C7' >C7</label>
+								<label><input type='checkbox' name='opeLevel1S' value='Th1' >Th1</label>
+								<label><input type='checkbox' name='opeLevel1S' value='L2' >L2</label>
+								<label><input type='checkbox' name='opeLevel1S' value='L3' >L3</label>
+								<label><input type='checkbox' name='opeLevel1S' value='L4' >L4</label>
+								<label><input type='checkbox' name='opeLevel1S' value='L5' >L5</label>
+							</p>
+						</li>
+						<li style="border: 0px;">
+							手術部位椎間
+							<p class="check" >	
+								<label><input type='checkbox' name='opeLevelBt1S' value='C2/3' >C2/3</label>
+								<label><input type='checkbox' name='opeLevelBt1S' value='C3/4' >C3/4</label>
+								<label><input type='checkbox' name='opeLevelBt1S' value='C4/5' checked>C4/5</label>
+								<label><input type='checkbox' name='opeLevelBt1S' value='C5/6' >C5/6</label>
+								<label><input type='checkbox' name='opeLevelBt1S' value='C6/7' >C6/7</label>
+								<label><input type='checkbox' name='opeLevelBt1S' value='C7/Th1' >C7/Th1</label>
+								<label><input type='checkbox' name='opeLevelBt1S' value='L2/3' >L2/3</label>
+								<label><input type='checkbox' name='opeLevelBt1S' value='L3/4' >L3/4</label>
+								<label><input type='checkbox' name='opeLevelBt1S' value='L4/5' >L4/5</label>
+								<label><input type='checkbox' name='opeLevelBt1S' value='L5/S1' >L5/S1</label>
+							</p>
+						</li>
+						<li>
+							術式
+							<p>
+								<select id='opeName1'>
+									<option value='ACDF' selected>ACDF</option>
+									<option value='TVF' >TVF</option>
+									<option value='ALF' >ALF</option>
+									<option value='Laminoplasty' >Laminoplasty</option>
+									<option value='partial laminectomy' >partial laminectomy</option>
+									<option value='trampetlaminectomy' >trampetlaminectomy</option>
+									<option value='hemilaminectomy' >hemilaminectomy</option>
+								</select>
+							</p>
+						</li>
+						術式2
+						<li style="border: 0px;">
+							手術部位
+							<p class="check">	
+								<label><input type='checkbox' name='opeLevel2S' value='C2' >C2</label>
+								<label><input type='checkbox' name='opeLevel2S' value='C3' >C3</label>
+								<label><input type='checkbox' name='opeLevel2S' value='C4' >C4</label>
+								<label><input type='checkbox' name='opeLevel2S' value='C5' >C5</label>
+								<label><input type='checkbox' name='opeLevel2S' value='C6' >C6</label>
+								<label><input type='checkbox' name='opeLevel2S' value='C7' >C7</label>
+								<label><input type='checkbox' name='opeLevel2S' value='Th1' >Th1</label>
+								<label><input type='checkbox' name='opeLevel2S' value='L2' >L2</label>
+								<label><input type='checkbox' name='opeLevel2S' value='L3' >L3</label>
+								<label><input type='checkbox' name='opeLevel2S' value='L4' >L4</label>
+								<label><input type='checkbox' name='opeLevel2S' value='L5' >L5</label>
+							</p>
+						</li>
+						<li style="border: 0px;">
+							手術部位椎間
+							<p class="check">	
+								<label><input type='checkbox' name='opeLevelBt2S' value='C2/3' >C2/3</label>
+								<label><input type='checkbox' name='opeLevelBt2S' value='C3/4' >C3/4</label>
+								<label><input type='checkbox' name='opeLevelBt2S' value='C4/5' >C4/5</label>
+								<label><input type='checkbox' name='opeLevelBt2S' value='C5/6' >C5/6</label>
+								<label><input type='checkbox' name='opeLevelBt2S' value='C6/7' >C6/7</label>
+								<label><input type='checkbox' name='opeLevelBt2S' value='C7/Th1' >C7/Th1</label>
+								<label><input type='checkbox' name='opeLevelBt2S' value='L2/3' >L2/3</label>
+								<label><input type='checkbox' name='opeLevelBt2S' value='L3/4' >L3/4</label>
+								<label><input type='checkbox' name='opeLevelBt2S' value='L4/5' >L4/5</label>
+								<label><input type='checkbox' name='opeLevelBt2S' value='L5/S1' >L5/S1</label>
+							</p>
+						</li>
+						<li>
+							<p>
+								術式
+								<select id='opeName2'>
+									<option value='' selected></option>
+									<option value='ACDF' >ACDF</option>
+									<option value='TVF' >TVF</option>
+									<option value='ALF' >ALF</option>
+									<option value='Laminoplasty' >Laminoplasty</option>
+									<option value='partial laminectomy' >partial laminectomy</option>
+									<option value='trampetlaminectomy' >trampetlaminectomy</option>
+									<option value='hemilaminectomy' >hemilaminectomy</option>
+								</select>
+							</p>
+						</li>
+						<li>周術期合併症
+							<input type='radio' name='complicationS' value='あり' >あり
+							<input type='radio' name='complicationS' value='なし' checked>なし
+						</li>
+						<li>症状経過
+							<input type='radio' name='afterOpeSymptomS' value='改善' checked>改善
+							<input type='radio' name='afterOpeSymptomS' value='不変' >不変
+							<input type='radio' name='afterOpeSymptomS' value='悪化' >悪化
+						</li>
+						<li style="border: 0px;">感覚障害
+							<input type='radio' name='finalSensoryS' value='なし' >なし
+							<input type='radio' name='finalSensoryS' value='術前より改善' checked>改善
+							<input type='radio' name='finalSensoryS' value='不変' >不変
+						</li>
+						<li style="border: 0px;">
+							運動障害
+							<input type='radio' name='finalMotorS' value='なし' >なし
+							<input type='radio' name='finalMotorS' value='術前より改善' checked>改善
+							<input type='radio' name='finalMotorS' value='不変' >不変
+						</li>
+						<li style="border: 0px;">
+							歩行障害
+							<input type='radio' name='finalWalkS' value='なし' >なし
+							<input type='radio' name='finalWalkS' value='術前より改善' checked>改善
+							<input type='radio' name='finalWalkS' value='不変' >不変
+						</li>
+						<li>
+							巧緻運動障害
+							<input type='radio' name='finalFingerS' value='なし' >なし
+							<input type='radio' name='finalFingerS' value='術前より改善' checked>改善
+							<input type='radio' name='finalFingerS' value='不変' >不変
+						</li>		
+						<li>
+							フォローアップ
+							<select id='discharge'>
+								<option value='退院し当院外来にてフォローアップ' selected>当院外来</option>
+								<option value='リハビリテーション目的に西1回復期病棟へ転棟' >西1回復期病棟へ転棟</option>
+								<option value='リハビリテーション目的に転院' >リハビリテーション転院</option>
+								<option value='慢性期管理に西2療養病棟へ転棟' >西2療養病棟へ転棟</option>
+							</select>
+						</li>
+					</ul>
+
+
+			
+				<div class="button">
+					<form id="csummary">
+						<input type="button" id="createsummary" value="作成" onclick="createRecord()">
+					</form>
+				</div>		
+			</div>
+
+			<div class="outputpage">退院サマリ<BR>
+				<form id="sum">
+					<textarea class="outputTextArea" name = "asummary" id="asummary" rows="30" cols="70"></textarea>
+				</form>
+			</div>
+		</div>		
+	</body>
+</html>
+	
+		

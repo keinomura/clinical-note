@@ -1,0 +1,102 @@
+<!-- 
+	
+20160614 作成開始
+	
+-->
+
+
+
+<!DOCTYPE HTML>
+<html lang="ja">
+	<head>
+		<title>未破裂脳動脈瘤退院サマリ</title>
+		<meta charset="UTF-8">
+		<script src="jquery-1.12.0.min.js"></script>
+<!-- 
+	style 設定 
+-->
+		<link rel="stylesheet" href="opeRecoStyle.css" type="text/css">
+<!--
+	JavaScript記述
+-->
+		<script>
+//サマリ記載
+			function createRecord(){	
+//全てのボタンの値を手に入れる
+//radio
+				var vclipCoil = $('input[name=clipCoilS]:checked').val();
+				var vcomplication = $('input[name=complicationS]:checked').val();
+//checkBox
+			
+//select
+				var vdischarge = $('select[id=discharge]').val();
+
+//サマリ作成
+				var avar = document.getElementById("asummary");
+
+				avar.value = "【入院後経過】上記の通り" + vclipCoil + "を施行した。周術期合併症" + vcomplication 
+				 + "。経過良好にて独歩退院となった。退院後は" + vdischarge
+				 
+			} 
+
+		</script>
+	</head>
+	
+	
+	
+	
+	
+	<body>
+		<div class="titleBox">
+			未破裂脳動脈瘤退院サマリ
+		</div>
+		<div class="boxA">
+			<div class="inputpage" id="inputpage">
+
+<!--
+サマリ項目
+	手術ORコイル clipCoil
+	周術期合併症 complication
+	フォローアップ discharge
+-->
+
+				<form id="inputform">
+					<ul>
+						<li>
+							Clip,Coil
+							<input type='radio' name='clipCoilS' value='クリッピング術' checked>Clip
+							<input type='radio' name='clipCoilS' value='コイル塞栓術' >Coil
+						</li>
+						<li>
+							周術期合併症
+							<input type="radio" name="complicationS" value="なし" checked>なし
+							<input type="radio" name="complicationS" value="あり" >あり
+						</li>
+						<li>
+							フォローアップ
+							<select id="discharge">
+								<option value="当院外来でフォローアップ。">当院</option>
+								<option value="佐野先生、名古屋脳神経クリニックでフォローアップ。" selected>名古屋脳神経クリニック</option>
+							</select>
+						</li>
+					</ul>
+				</form>
+
+			
+				<div class="button">
+					<form id="csummary">
+						<input type="button" id="createsummary" value="作成" onclick="createRecord()">
+					</form>
+				</div>		
+			</div>
+
+			<div class="outputpage">退院サマリ<BR>
+				<form id="sum">
+					<textarea class='outputTextArea' name = "asummary" id="asummary" rows="30" cols="70"></textarea>
+				</form>
+			</div>
+		</div>		
+	</body>
+</html>
+	
+		

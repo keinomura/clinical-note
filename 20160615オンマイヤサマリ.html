@@ -1,0 +1,88 @@
+<!-- 
+	
+20160615 作成開始
+	
+-->
+
+
+
+<!DOCTYPE HTML>
+<html lang="ja">
+	<head>
+		<title>オンマイヤ退院サマリ</title>
+		<meta charset="UTF-8">
+		<script src="jquery-1.12.0.min.js"></script>
+<!-- 
+	style 設定 
+-->
+		<link rel="stylesheet" href="opeRecoStyle.css" type="text/css">
+<!--
+	JavaScript記述
+-->
+		<script>
+//サマリ記載
+			function createRecord(){	
+//全てのボタンの値を取得
+				var vdischarge = $('select[id=discharge]').val();
+//TextBoxの値を取得
+
+//サマリ作成
+				var avar = document.getElementById("asummary");
+
+				avar.value = "【術式】オンマイヤレザボア留置術"
+				 +"【入院後経過】上記の通り手術を行った。周術期合併症なし。術後サイバーナイフ治療を行った。"
+				+"経過良好にて退院となった。今後のフォローアップは" + vdischarge;
+			} 
+		</script>
+	</head>
+	
+	
+	
+	
+	
+	<body>
+		<div class="titleBox">
+			オンマイヤ退院サマリ
+		</div>
+		<div class="boxA">
+			<div class="inputpage" id="inputpage">
+
+<!--
+サマリ項目
+	周術期合併症 complication
+	検査所見 note
+	フォローアップ discharge
+-->
+
+
+				<form id="inputform">
+					<ul>
+						<li>
+							フォローアップ
+								<select id="discharge">
+									<option value="サイバーナイフ外来にて行う。" selected>サイバー外来</option>
+									<option value="紹介元病院で行う。" >紹介元</option>
+									<option value="当科にて行う。" >当科</option>
+								</select>
+						</li>
+					</ul>
+				</from>
+
+			
+				<div class="button">
+					<form id="csummary">
+						<input type="button" id="createsummary" value="作成" onclick="createRecord()">
+					</form>
+				</div>		
+			</div>
+
+			<div class="outputpage">退院サマリ<BR>
+				<form id="sum">
+					<textarea class="outputTextArea" name = "asummary" id="asummary" rows="30" cols="70"></textarea>
+				</form>
+			</div>
+		</div>		
+	</body>
+</html>
+	
+		

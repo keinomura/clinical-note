@@ -1,0 +1,93 @@
+<!-- 
+	
+	2016-06-14
+	TODO sideBarのサイズ変更する
+
+-->
+
+
+
+<!DOCTYPE HTML>
+<html lang="ja">
+	<head>
+		<title>mainpage</title>
+
+		<meta charset="UTF-8">
+        <script src="jquery-1.12.0.min.js"></script>
+ <!-- 
+	style 設定 
+-->       
+
+<link rel="stylesheet" href="opeRecoStyle.css" type="text/css">
+
+<style type="text/css">
+	body{
+		margin: 0 ;
+		padding: 0;
+		text-align: center;
+
+	}
+
+	.BoxA {
+		margin-left: auto;
+		margin-right: auto;
+		text-align: left;
+		width: 1050px;
+		background-color: #D0D1DF;
+	}
+
+	.BoxA::after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+
+	.sideBarMenu {
+		margin-left: auto;
+		float: left;
+		width: 150px;
+		height: 800px;
+		padding: 10px;
+		margin-top: 40px;
+		border: solid 3px;
+		border-color: blue;
+	}
+
+	.aframe {
+		width: 850px;
+		margin-top: 40px;
+		margin-left: 10px;
+		float: left;
+	}
+
+		</style>
+
+
+<!--
+	JavaScript記述
+-->
+<script>
+</script>
+
+
+
+	</head>
+	
+<!--
+	HTML記述
+-->	
+	<body>
+		<div class="BoxA">
+			<div class="sideBarMenu">
+				<iframe src="sideMenuBar.html" name="menuFrame" width="150px", height="100%" frameborder=0>test</iframe>
+			</div>
+
+			<div class="aframe">
+				<iframe src="20160205$CSDH OPEreco.html" name="opeRecoFrame" width="850px", height="800px" frameborder=0>test</iframe>
+			</div>
+		</div>
+	</body>
+	
+</html>
+	
+		
