@@ -1,73 +1,210 @@
-/*
-1. sideMenu 位置調整
-2. mainmenuにタイトルdivつけるか決める
-3. 
-
-
+/*TODO
+ 
 */
 
 
-/*font sizeの指定*/
+/* deault font type */
 *{
-	font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;  
+	font-family: "Hiragino Kaku Gothic Pro W3", "MS PGothic", sans-serif;  /*delete font written in Japanese*/
  	font-size: 100%; 
  	text-align: left;  
  	margin: 0 auto;  
  	padding: 0;  
 }
 
+/*
+--------------------------------------------------------------------------------------------------------------------
+Style of mainpage
+--------------------------------------------------------------------------------------------------------------------
+*/
+
+/*title Box of mainpage style*/
 .titleBox {
 	margin: 20px;
 	text-align: center;
 	font-size: 200%;
 	width: 800px;
-/*	border: solid 8px; */
-/*	border-color:  green; */
-/*	background-color: #a0e0fe;*/
 	color: #173e43;	
 }
 
+/* sidemenu style*/
+
+.sideBarMenu {
+		margin-left: auto;
+		float: left;
+		width: 150px;
+		height: 800px;
+		padding: 10px;
+		margin-top: 40px;
+		border: solid 3px;
+		border-color: blue;
+	}
+
+/* right side space */
+
+	.BoxA {
+		margin-left: auto;
+		margin-right: auto;
+		text-align: left;
+		width: 1050px;
+		background-color: #D0D1DF;
+	}
+
+	.BoxA::after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+
+/* aframe style*/
+.aframe {
+		width: 850px;
+		margin-top: 40px;
+		margin-left: 10px;
+		float: left;
+	}
+
+/*delete .boxA in css*/
 
 /*
-.boxA:after {
-position: relative;
-position: 
-	width: 1000px;
-
-	border: solid 8px;
-	border-color:  #00a0e9;
-	background-color: yellow;
-	color: #00a0e9;
-
-	content: "";
-	display: block;
-	clear: both;
-		}
+--------------------------------------------------------------------------------------------------------------------
+Style of contents in aframe
+--------------------------------------------------------------------------------------------------------------------
 */
+
+/*
+--------------------------------------------------------------------------------------------------------------------
+left side of contents in aframe*/
+
 .inputpage{
 	line-height: 1em;
 	margin: 10px;
 	padding: 10px;
 	float: left;
 	width:320px;
-			
-	border: solid 0px;
-	border-color: #FF0000;
-/*	background-color: #a0e0fe;*/
 	color: #173e43;
 		}
 
-.outputpage{
-	margin: 10px;
-	padding: 10px;
-	float: left;
-	width: 420px;
+/*
+	--------------------------------------------------------------------------------------------------------------------
+	Style of contents in <ul>, <li>
+	--------------------------------------------------------------------------------------------------------------------
+*/
 
-/*	border: solid 8px; */
-	border-color: #FFA500;
-/*	background-color: #a0e0fe; */
-/*	color: #00a0e9;*/
+/*set up inputform <ul>*/
+form#inputform ul {
+	padding:0;
+	margin-top:0;
 		}
+
+/*
+	--------------------------------------------------------------------------------------------------------------------
+	Style of contents in <ul>, <li> border lines
+	--------------------------------------------------------------------------------------------------------------------
+*/
+
+	/*set up input for <ul>,<li>  set the style of list border lines*/ 
+	form#inputform ul li {
+		list-style:none;
+		list-style-type: none;
+		margin-right: 10px;
+		padding:10px;
+		border-bottom: 1px solid gray;
+		font-size: 12px;
+			}
+
+	/*make the first <li> content with no line border（:first-child）*/ 
+	form#inputform ul li:first-child {
+		border-top:none;
+			}
+
+	/*(:after) clear float after <li> component */
+	form#inputform ul li:after {
+		content:".";
+		display:block;
+		height:0;
+		visibility:hidden;
+		clear:both; /*clear float*/
+			}
+
+
+        /* make a float block component with span class(in-line components) to put on form class side by side ::this style-set maybe does not work*/
+        form#inputform ul li span {
+            width: 13.5em;
+            margin:0px;
+            display:block;
+            float:left;
+                }
+
+
+        /* font style of <li>.textfield  */
+        form#inputform ul li label .txtfiled {
+        width:350px;           
+        /*add shadow in textfield*/
+        background: #fff;
+        -webkit-box-shadow: 2px 3px 5px -2px #CCC inset;
+        -moz-box-shadow: 2px 3px 5px -2px #CCC inset;
+        box-shadow: 2px 3px 5px -2px #CCC inset;
+            }
+
+
+/* made checkboxes with <p> style because I want to separate a label text and check box area
+radio buttons with directry <li> style, not need to separate them */
+
+        /*set <p> style as checkboxes*/
+        form#inputform ul li p {
+        margin:5px 0 0 20px;
+            }
+
+        /*set right margin to separate label text from radio buttons(this set make also right margin of radio buttons)*/
+        form#inputform ul li input {
+        margin-right:0.5em;
+              }
+
+
+            /*label component of checkbox*/
+            form#inputform ul li p label {
+            padding-right:0.3em;
+            margin-right: 0em;
+            display: inline-block;
+            /* float: left; -- cannnot use with inline-block*/
+             }
+
+                /*make some space between checkbox button and text*/
+                form#inputform ul li p label input {
+                margin-right:0.5em;
+                }
+
+				/*set some effect when mouse over the label*/
+				form#inputform ul li p label:hover {
+				background : #FFF;
+				color: #09F;
+				}
+
+				/*set width of check box label components*/
+				form#inputform ul li p.check label {
+				width: 6em;
+				}
+
+.nihssTitle {
+	display: block;
+	float:left;
+	width: 2.5em;
+}
+
+form#clipcheckbox input{
+	font-size: 12pt;
+	margin-left:10px;
+	margin-right:10px;
+}
+
+.inputTextArea {
+	width: 280px;
+}
+
+
+
+/*Syle of create summary button*/
 
 .button {
 	font-size: 12pt;
@@ -77,104 +214,6 @@ position:
 
 form#csummary {
 	text-align: center;
-}
-		
-
-
-/*リスト要素<ul>を初期化*/
-form#inputform ul {
-padding:0;
-margin-top:0;
-}
-/*<li>も初期化し、ボーダーなどを指定*/ 
-form#inputform ul li {
-list-style:none;
-list-style-type: none;
-margin-right: 10px;
-padding:10px;
-border-bottom: 1px solid gray;
-font-size: 12px;
-}
-
-
-
-
-
-
-
-
-/*最初の<li>にはボーダーをつけない（:first-child疑似クラスによる指定）*/ 
-form#inputform ul li:first-child {
-border-top:none;
-}
-/* span要素をブロック化しフロートでフォーム部品と横に並べる*/
-form#inputform ul li span {
-width: 13.5em;
-margin:0px;
-display:block;
-float:left;
-}
-
-/*疑似要素「:after」で、 li要素の直後でフロートをクリア*/
-form#inputform ul li:after {
-content:".";
-display:block;
-height:0;
-visibility:hidden;
-clear:both; /*←フロートをクリア*/
-}
-
-/* テキスト入力部分の見た目を統一する */
-form#inputform ul li label .txtfiled {
-width:350px;/*200*/
-/*テキストエリア内にシャドウをつける*/
-background: #fff;
--webkit-box-shadow: 2px 3px 5px -2px #CCC inset;
--moz-box-shadow: 2px 3px 5px -2px #CCC inset;
-box-shadow: 2px 3px 5px -2px #CCC inset;
-}
-
-/*チェックボックス、ラジオボタンのブロックの指定*/
-form#inputform ul li p {
-margin:5px 0 0 20px;/*margin:5px 0 0 40px;*/
-}
-/*チェックボックス、ラジオボタンの label要素を横に並べる*/
-form#inputform ul li p label {
-padding-right:0.3em;
-margin-right: 2em;
-display: block;
-float: left;
-}
-/*チェックボックス・ラジオボタンのinput要素とテキストがくっつかないように右マージンを少し*/
-form#inputform ul li p label input {
-margin-right:0.5em;
-}
-/*チェックボックス・ラジオボタンのinput要素とテキストがくっつかないように右マージンを少し*/
-form#inputform ul li input {
-margin-right:0.5em;
-}
-
-
-/*チェックボックス、ラジオボタンの label要素に、ロールオーバー時の変化を指定する*/
-form#inputform ul li p label:hover {
-background : #FFF;
-color: #09F;
-}
-/*チェックボックスの label要素の横幅を統一する*/
-form#inputform ul li p.check label {
-width: 6em; /*12em*/
-}
-/*送信・リセットボタンの体裁を指定*/
-form#inputform ul li button {
-cursor:pointer; /*←これでカーソルを指先型に変化させる*/
-margin-right: 10px;
-padding:0; /*これ以降はbutton要素のデフォルトの枠を消す指定*/
-background:none;
-border:0;
-width: auto;
-overflow:visible;
-font-size:0;
-line-height:0;
 }
 
 input#createsummary{
@@ -195,23 +234,20 @@ background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
   text-decoration: none;
 }
 
-.sidemenu li{
-list-style:none;
-margin-right: 10px;
-padding-top:0.2em;
-/* border-bottom: 1px solid gray; */
-font-size: 14px;
-}
-.sidemenu {
-/*padding: 10px;*/
-background: none;
-padding-top: 1em;
-}
 
+/*
+--------------------------------------------------------------------------------------------------------------------
+right side of contents in aframe*/
 
-.outputpage {
+.outputpage{
+	margin: 10px;
+	padding: 10px;
+	float: left;
+	width: 420px;
 	font-size: 12px;
-}
+	}
+ 
+
 .opetitle label {
 	display: block;
 	float:left;
@@ -224,24 +260,11 @@ padding-top: 1em;
 	margin-top: 20px;
 }
 
-.nihssTitle {
-	display: block;
-	float:left;
-	width: 2em;
-}
-
-form#clipcheckbox input{
-	font-size: 12pt;
-	margin-left:10px;
-	margin-right:10px;
-}
-
-.inputTextArea {
-	width: 280px;
-}
-
 .outputTextArea {
 	width: 400px;
 	height: 550px;
 	margin-left: 20px;
 }
+
+
+
