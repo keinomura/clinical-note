@@ -1,6 +1,5 @@
 /*TODO
-1. replace .BoxA style from main.html to here
-2. 
+ 
 */
 
 
@@ -28,6 +27,42 @@ Style of mainpage
 	color: #173e43;	
 }
 
+/* sidemenu style*/
+
+.sideBarMenu {
+		margin-left: auto;
+		float: left;
+		width: 150px;
+		height: 800px;
+		padding: 10px;
+		margin-top: 40px;
+		border: solid 3px;
+		border-color: blue;
+	}
+
+/* right side space */
+
+	.BoxA {
+		margin-left: auto;
+		margin-right: auto;
+		text-align: left;
+		width: 1050px;
+		background-color: #D0D1DF;
+	}
+
+	.BoxA::after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+
+/* aframe style*/
+.aframe {
+		width: 850px;
+		margin-top: 40px;
+		margin-left: 10px;
+		float: left;
+	}
 
 /*delete .boxA in css*/
 
@@ -37,7 +72,9 @@ Style of contents in aframe
 --------------------------------------------------------------------------------------------------------------------
 */
 
-/* left side of contents in aframe*/
+/*
+--------------------------------------------------------------------------------------------------------------------
+left side of contents in aframe*/
 
 .inputpage{
 	line-height: 1em;
@@ -45,8 +82,6 @@ Style of contents in aframe
 	padding: 10px;
 	float: left;
 	width:320px;
-	border: solid 0px;
-	border-color: #FF0000;
 	color: #173e43;
 		}
 
@@ -118,7 +153,7 @@ radio buttons with directry <li> style, not need to separate them */
 
         /*set <p> style as checkboxes*/
         form#inputform ul li p {
-        margin:5px 0 0 20px;/*margin:5px 0 0 40px;*/
+        margin:5px 0 0 20px;
             }
 
         /*set right margin to separate label text from radio buttons(this set make also right margin of radio buttons)*/
@@ -127,42 +162,46 @@ radio buttons with directry <li> style, not need to separate them */
               }
 
 
-            /*チェックボックス、ラジオボタンの label要素を横に並べる*/
+            /*label component of checkbox*/
             form#inputform ul li p label {
             padding-right:0.3em;
-            margin-right: 2em;
-            display: block;
-            float: left;
+            margin-right: 0em;
+            display: inline-block;
+            /* float: left; -- cannnot use with inline-block*/
              }
 
-                /*チェックボックス・ラジオボタンのinput要素とテキストがくっつかないように右マージンを少し*/
+                /*make some space between checkbox button and text*/
                 form#inputform ul li p label input {
                 margin-right:0.5em;
                 }
 
+				/*set some effect when mouse over the label*/
+				form#inputform ul li p label:hover {
+				background : #FFF;
+				color: #09F;
+				}
 
+				/*set width of check box label components*/
+				form#inputform ul li p.check label {
+				width: 6em;
+				}
 
-/*チェックボックス、ラジオボタンの label要素に、ロールオーバー時の変化を指定する*/
-form#inputform ul li p label:hover {
-background : #FFF;
-color: #09F;
+.nihssTitle {
+	display: block;
+	float:left;
+	width: 2.5em;
 }
-/*チェックボックスの label要素の横幅を統一する*/
-form#inputform ul li p.check label {
-width: 6em; /*12em*/
+
+form#clipcheckbox input{
+	font-size: 12pt;
+	margin-left:10px;
+	margin-right:10px;
 }
-/*送信・リセットボタンの体裁を指定*/
-form#inputform ul li button {
-cursor:pointer; /*←これでカーソルを指先型に変化させる*/
-margin-right: 10px;
-padding:0; /*これ以降はbutton要素のデフォルトの枠を消す指定*/
-background:none;
-border:0;
-width: auto;
-overflow:visible;
-font-size:0;
-line-height:0;
+
+.inputTextArea {
+	width: 280px;
 }
+
 
 
 /*Syle of create summary button*/
@@ -176,22 +215,6 @@ line-height:0;
 form#csummary {
 	text-align: center;
 }
-
-
-
-.outputpage{
-	margin: 10px;
-	padding: 10px;
-	float: left;
-	width: 420px;
-	border-color: #FFA500;
-		}
-
-
-
-		
-
-
 
 input#createsummary{
 	text-align: center;
@@ -211,23 +234,20 @@ background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
   text-decoration: none;
 }
 
-.sidemenu li{
-list-style:none;
-margin-right: 10px;
-padding-top:0.2em;
-/* border-bottom: 1px solid gray; */
-font-size: 14px;
-}
-.sidemenu {
-/*padding: 10px;*/
-background: none;
-padding-top: 1em;
-}
 
+/*
+--------------------------------------------------------------------------------------------------------------------
+right side of contents in aframe*/
 
-.outputpage {
+.outputpage{
+	margin: 10px;
+	padding: 10px;
+	float: left;
+	width: 420px;
 	font-size: 12px;
-}
+	}
+ 
+
 .opetitle label {
 	display: block;
 	float:left;
@@ -240,24 +260,11 @@ padding-top: 1em;
 	margin-top: 20px;
 }
 
-.nihssTitle {
-	display: block;
-	float:left;
-	width: 2em;
-}
-
-form#clipcheckbox input{
-	font-size: 12pt;
-	margin-left:10px;
-	margin-right:10px;
-}
-
-.inputTextArea {
-	width: 280px;
-}
-
 .outputTextArea {
 	width: 400px;
 	height: 550px;
 	margin-left: 20px;
 }
+
+
+
