@@ -1,0 +1,84 @@
+<!-- 
+	
+	id, nameを間違えると動かない．基本的にいじりたい要素はidにしておかないと後で大変な目を見る
+	
+    2016/02/05
+    JQuery使うようにした。
+    術者選択はonFocusでやった方が効率が良さそう。
+    SelectorはJQueryのchosenを使った方が検索もできて良さそう。
+    
+    2016/02/15
+    術者選択はTextでonFocusにする。15Feb15
+    術者選択、病名選択　リフレッシュボタンを作成する readonlyで対応 15Feb15
+
+
+    次回の課題   
+    
+    フォントを揃える
+    手術記録TextBox大きさ、幅を減らす
+    手術分類のSelectorを作る
+
+	TODO: BOX並べる。padding設定すると並べない。
+
+-->
+
+
+
+<!DOCTYPE HTML>
+<html lang="ja">
+	<head>
+		<title>メニュー</title>
+
+		<meta charset="UTF-8">
+        <script src="jquery-1.12.0.min.js"></script>
+ <!-- 
+	style 設定 
+-->       
+<link rel="stylesheet" href="opeRecoStyle.css" type="text/css">
+
+
+<!--
+	JavaScript記述
+-->
+<script>
+</script>
+
+
+
+	</head>
+	
+<!--
+	HTML記述
+-->	
+	<body>
+		
+		<ul class="sidemenu">
+			<h3>入院サマリ</h3>
+			<li><a href="20160518入院サマリ.html" target="opeRecoFrame">入院サマリ</a><br></li>
+		</ul>
+		<ul class="sidemenu">
+			<h3>退院サマリ</h3>
+			<li><a href="20160614脳梗塞サマリ.html" target="opeRecoFrame">脳梗塞</a><br></li>
+			<li><a href="20160614脳出血サマリ.html" target="opeRecoFrame">脳出血</a><br></li>
+			<li><a href="20160614未破裂脳動脈瘤サマリ.html" target="opeRecoFrame">未破裂脳動脈瘤</a><br></li>
+			<li><a href="20160615TNサマリ.html" target="opeRecoFrame">三叉神経痛</a><br></li>
+			<li><a href="20160615HFSサマリ.html" target="opeRecoFrame">顔面痙攣</a><br></li>
+			<li><a href="20160615脊椎サマリ.html" target="opeRecoFrame">脊椎</a><br></li>
+			<li><a href="20160615DSAサマリ.html" target="opeRecoFrame">DSA</a><br></li>
+			<li><a href="20160615経過観察サマリ.html" target="opeRecoFrame">経過観察</a><br></li>
+			<li><a href="20160615オンマイヤサマリ.html" target="opeRecoFrame">オンマイヤ</a><br></li>
+		</ul>
+		<ul class="sidemenu">
+			<h3>手術名</h3>
+			<li><a href="20160514ClipOpeReco.html" target="opeRecoFrame">Clipping</a><br></li>
+			<li><a href="20160205$CSDH OPEreco.html" target="opeRecoFrame">CSDH</a><br></li>
+			<li><a href="20160518HFS OPEreco.html" target="opeRecoFrame">HFS</a><br></li>
+			<li><a href="20160518TN OPEreco.html" target="opeRecoFrame">TN</a><br></li>
+			<li><a href="20160615オンマイヤOPEreco.html" target="opeRecoFrame">オンマイヤ</a><br></li>
+		</ul>
+		
+	</body>
+	
+	</html>
+	
+		
